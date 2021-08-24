@@ -13,7 +13,7 @@ spring:
     testWhileIdle: true
     validationQuery: SELECT 1
   jpa:
-    generate-ddl: false
+    generate-ddl: true
     properties:
       hibernate:
         ddl-auto: none
@@ -24,10 +24,6 @@ spring:
   hibernate:
     naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
   show-sql: true
-  security:
-    user:
-      name: admin
-      password: admin
 
 security:
   oauth2:
