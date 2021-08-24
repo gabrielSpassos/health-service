@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @Configuration
 public class OAuth2ServerConfiguration {
 
-    private static final String RESOURCE_ID = "healthservice";
+    private static final String RESOURCE_ID = "restservice";
 
     @Configuration
     @EnableResourceServer
@@ -41,7 +41,7 @@ public class OAuth2ServerConfiguration {
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
                     .and().authorizeRequests()
-                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .antMatchers("/**").permitAll()
                     .anyRequest().fullyAuthenticated();
         }
 
@@ -80,8 +80,7 @@ public class OAuth2ServerConfiguration {
                     .refreshTokenValiditySeconds(300000)
                     .resourceIds(RESOURCE_ID)
                     .secret(passwordEncoder.encode("123"))
-                    .accessTokenValiditySeconds(50000);
-
+                    .accessTokenValiditySeconds(300000);
         }
 
         @Bean
