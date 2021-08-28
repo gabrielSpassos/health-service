@@ -41,7 +41,7 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @Secured(value = {RoleConstant.ADMIN, RoleConstant.CUSTOMER})
+    @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/users")
     public ResponseEntity<Page<UserEntity>> getUsers(@RequestParam int page, @RequestParam int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -49,7 +49,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @Secured(value = {RoleConstant.ADMIN, RoleConstant.CUSTOMER})
+    @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/user-auth")
     @ResponseBody
     public UserEntity getUserAuth() {

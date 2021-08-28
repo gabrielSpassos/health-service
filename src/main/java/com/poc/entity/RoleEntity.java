@@ -1,6 +1,5 @@
 package com.poc.entity;
 
-import com.poc.constant.RoleEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,8 +23,8 @@ public class RoleEntity implements GrantedAuthority {
     @Column(name = "NAME")
     private String name;
 
-    public RoleEntity(RoleEnum name) {
-        this.name = name.name();
+    public RoleEntity(String name) {
+        this.name = name;
     }
 
     @Override

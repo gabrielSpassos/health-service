@@ -1,6 +1,6 @@
 package com.poc.constant;
 
-public interface RoleConstant {
-    String ADMIN = "ADMIN";
-    String CUSTOMER = "CUSTOMER";
+public class RoleConstant {
+    public static final String ADMIN = "ROLE_ADMIN";
+    public static final String USER = "ROLE_USER";
 }

@@ -37,12 +37,13 @@ public class OAuth2ServerConfiguration {
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            http.logout()
+            http
+                    .logout()
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
                     .and().authorizeRequests()
-                    .antMatchers("/**").permitAll()
-                    .anyRequest().fullyAuthenticated();
+                    .anyRequest().fullyAuthenticated()
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         }
 
     }
@@ -80,7 +81,7 @@ public class OAuth2ServerConfiguration {
                     .refreshTokenValiditySeconds(300000)
                     .resourceIds(RESOURCE_ID)
                     .secret(passwordEncoder.encode("123"))
-                    .accessTokenValiditySeconds(300000);
+                    .accessTokenValiditySeconds(50000);
         }
 
         @Bean
