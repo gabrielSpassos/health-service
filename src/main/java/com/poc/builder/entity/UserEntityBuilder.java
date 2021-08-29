@@ -18,6 +18,15 @@ public class UserEntityBuilder {
                 .build();
     }
 
+    public static UserEntity create(String email, String name, String password, List<RoleEntity> roles) {
+        return UserEntity.builder()
+                .email(email)
+                .name(name)
+                .password(password)
+                .roles(roles)
+                .build();
+    }
+
     private static List<RoleEntity> createRoles(RoleEntity... roles) {
         return Arrays.stream(roles)
                 .collect(Collectors.toList());
