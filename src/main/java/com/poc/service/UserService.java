@@ -8,6 +8,7 @@ import com.poc.repository.RoleRepository;
 import com.poc.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
 
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
@@ -34,9 +36,14 @@ public class UserService {
                 .map(roleRepository::save)
                 .collect(Collectors.toList());
 
+        String encryptedPassword = passwordEncoder.encode(userRequest.getPassword());
         UserEntity userEntity = UserEntityBuilder
-                .create(userRequest.getEmail(), userRequest.getName(), userRequest.getPassword(), roles);
+                .create(userRequest.getEmail(), userRequest.getName(), encryptedPassword, roles);
 
         return userRepository.save(userEntity);
+    }
+
+    public List<UserEntity> findUsers() {
+        return userRepository.findAll();
     }
 }
