@@ -42,8 +42,8 @@ public class OAuth2ServerConfiguration {
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
                     .and().authorizeRequests()
-                    .anyRequest().fullyAuthenticated()
-                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .anyRequest().fullyAuthenticated();
         }
 
     }

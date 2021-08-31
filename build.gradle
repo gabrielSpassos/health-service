@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.5.RELEASE'
+	id 'org.springframework.boot' version '2.5.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
@@ -28,6 +28,7 @@ dependencies {
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.5.RELEASE'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'com.h2database:h2:1.4.200'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
