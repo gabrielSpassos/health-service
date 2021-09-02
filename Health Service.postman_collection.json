@@ -139,6 +139,42 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "4 - Criar novo usuário",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 69ee9004-dd65-4e2e-b6aa-01bffeac1270"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"email\":\"gabriel@gmail.com\",\n   \"name\":\"gabriel\",\n   \"password\":\"123456\",\n   \"roles\":[\n      \"ROLE_ADMIN\",\n      \"ROLE_USER\"\n   ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
