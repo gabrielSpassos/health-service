@@ -1,7 +1,9 @@
 package com.poc.service;
 
+import com.poc.builder.dto.PatientDTOBuilder;
 import com.poc.builder.entity.PatientEntityBuilder;
 import com.poc.controller.request.PatientRequest;
+import com.poc.dto.PatientDTO;
 import com.poc.entity.PatientEntity;
 import com.poc.exception.PatientAlreadyExistentException;
 import com.poc.exception.PatientNotFoundException;
@@ -20,10 +22,11 @@ import java.util.Objects;
 @AllArgsConstructor
 public class PatientService {
 
+    private final MedicalRecordService medicalRecordService;
     private final PatientRepository patientRepository;
     private static final String SORT_PROPERTY = "name";
 
-    public PatientEntity createPatient(PatientRequest patientRequest) {
+    public PatientDTO createPatient(PatientRequest patientRequest) {
         PatientEntity patientAlreadyCreated = patientRepository.findByCpfOrRg(patientRequest.getCpf(), patientRequest.getRg());
 
         if (Objects.nonNull(patientAlreadyCreated)) {
@@ -31,17 +34,23 @@ public class PatientService {
         }
 
         PatientEntity patientEntity = PatientEntityBuilder.build(patientRequest);
-        return patientRepository.save(patientEntity);
+        PatientEntity savedPatient = patientRepository.save(patientEntity);
+        log.info("Criado paciente {}", savedPatient);
+        PatientDTO patientDTO = PatientDTOBuilder.build(savedPatient);
+        medicalRecordService.createMedicalRecord(patientDTO);
+        return patientDTO;
     }
 
-    public Page<PatientEntity> getPatients(Integer page, Integer size) {
+    public Page<PatientDTO> getPatients(Integer page, Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, SORT_PROPERTY);
 
-        return patientRepository.findAll(pageRequest);
+        return patientRepository.findAll(pageRequest)
+                .map(PatientDTOBuilder::build);
     }
 
-    public PatientEntity getPatientById(Long id) {
+    public PatientDTO getPatientById(Long id) {
         return patientRepository.findById(id)
+                .map(PatientDTOBuilder::build)
                 .orElseThrow(PatientNotFoundException::new);
     }
 }

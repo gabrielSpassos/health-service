@@ -5,7 +5,7 @@ import com.poc.constant.RoleEnum;
 import com.poc.constant.SexEnum;
 import com.poc.controller.request.PatientRequest;
 import com.poc.controller.request.UserRequest;
-import com.poc.entity.PatientEntity;
+import com.poc.dto.PatientDTO;
 import com.poc.entity.UserEntity;
 import com.poc.service.PatientService;
 import com.poc.service.UserService;
@@ -43,7 +43,7 @@ public class DataInitializr implements ApplicationListener<ContextRefreshedEvent
     }
 
     private void createPatientsIfEmpty() {
-        Page<PatientEntity> patients = patientService.getPatients(0, 20);
+        Page<PatientDTO> patients = patientService.getPatients(0, 20);
 
         if (patients.isEmpty()) {
             createPatient("Amanda Maria da Silva", "80447242067",

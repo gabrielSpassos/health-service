@@ -1,46 +1,38 @@
 package com.poc.entity;
 
-import com.poc.constant.SexEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDate;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "PATIENT")
-public class PatientEntity {
+@Entity(name = "REGISTRY")
+@EqualsAndHashCode(exclude = "medicalRecord")
+public class RegistryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAME")
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "MEDICAL_REPORT_ID", nullable = false)
+    private MedicalRecordEntity medicalRecord;
 
-    @Column(name = "CPF")
-    private String cpf;
-
-    @Column(name = "RG")
-    private String rg;
-
-    @Column(name = "BIRTHDATE")
-    private LocalDate birthdate;
-
-    @Column(name = "SEX")
-    private SexEnum sex;
-
-    @Column(name = "PHONE")
-    private String phone;
+    @Column(name = "DESCRIPTION")
+    private String description;
 
 }
