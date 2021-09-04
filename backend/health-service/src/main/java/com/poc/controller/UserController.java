@@ -60,7 +60,7 @@ public class UserController implements BaseVersion{
     @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/user-auth")
     @ResponseBody
-    public UserEntity getUserAuth() {
+    public UserEntity getUserAuth(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
         return (UserEntity) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
