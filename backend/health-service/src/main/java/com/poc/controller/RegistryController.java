@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,6 +23,7 @@ public class RegistryController implements BaseVersion {
 
     private final RegistryService registryService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN})
     @PostMapping(value = "/medical-records/{medicalRecordId}/registries")
     public ResponseEntity<RegistryDTO> createRegistry(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
@@ -31,6 +33,7 @@ public class RegistryController implements BaseVersion {
         return ResponseEntity.status(HttpStatus.CREATED).body(registry);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN})
     @PutMapping(value = "/registries/{id}")
     public ResponseEntity<RegistryDTO> updateRegistry(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,

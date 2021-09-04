@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,6 +19,7 @@ public class MedicalRecordController implements BaseVersion {
 
     private final MedicalRecordService medicalRecordService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN})
     @GetMapping(value = "/patients/{patientId}/medical-records")
     public ResponseEntity<MedicalRecordDTO> getPatientMedicalRecord(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
