@@ -1,0 +1,18 @@
+.navBarSignButton{
+    float: right;
+    border: 0;
+    padding: 0.5rem;
+    background-color:#B5E5CF;
+    color:grey;
+    text-decoration: none;
+}
+
+.navBarSignButton:hover{
+    background-color:#D2E5D0;
+    text-decoration: none;
+    color:grey;
+}
+
+.navBar{
+    padding: 1.0rem;
+}

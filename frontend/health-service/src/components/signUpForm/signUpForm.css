@@ -1,0 +1,41 @@
+.form-title{
+    font-size: 3.0rem;
+    color:grey;
+    font-weight: bold;
+}
+
+.form-subtitle{
+    font-size: 1.1rem;
+    color:grey;    
+}
+
+.form-input{
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.form-button{
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border:0;
+    width: 100%;
+    background-color:#B5E5CF;
+}
+
+.form-button:hover{
+    background-color:#D2E5D0;
+}
+
+.form-box{
+    border-color:grey;
+    border: 1px;
+    padding:3.0rem;
+}
+
+.form-aux-text{
+    font-size: 0.9rem;
+    color:grey;    
+}
