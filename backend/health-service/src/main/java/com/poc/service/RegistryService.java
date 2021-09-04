@@ -6,6 +6,7 @@ import com.poc.controller.request.RegistryRequest;
 import com.poc.dto.RegistryDTO;
 import com.poc.entity.MedicalRecordEntity;
 import com.poc.entity.RegistryEntity;
+import com.poc.exception.RegistryNotFoundException;
 import com.poc.repository.RegistryRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,5 +27,13 @@ public class RegistryService {
         RegistryEntity savedRegistry = registryRepository.save(registryEntity);
         log.info("Criado registro {}", savedRegistry);
         return RegistryDTOBuilder.build(savedRegistry);
+    }
+
+    public RegistryDTO updateRegistry(Long id, RegistryRequest registryRequest) {
+        return registryRepository.findById(id)
+                .map(registryEntity -> RegistryEntityBuilder.build(registryEntity, registryRequest))
+                .map(registryRepository::save)
+                .map(RegistryDTOBuilder::build)
+                .orElseThrow(RegistryNotFoundException::new);
     }
 }

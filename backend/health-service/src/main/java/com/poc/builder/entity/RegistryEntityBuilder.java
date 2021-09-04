@@ -12,4 +12,12 @@ public class RegistryEntityBuilder {
                 .description(registryRequest.getDescription())
                 .build();
     }
+
+    public static RegistryEntity build(RegistryEntity registryEntity, RegistryRequest registryRequest) {
+        return RegistryEntity.builder()
+                .id(registryEntity.getId())
+                .medicalRecord(registryEntity.getMedicalRecord())
+                .description(registryRequest.getDescription())
+                .build();
+    }
 }
