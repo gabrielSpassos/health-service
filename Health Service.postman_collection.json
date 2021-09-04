@@ -89,13 +89,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/users?page=0&size=50",
+					"raw": "http://localhost:8080/v1/users?page=0&size=50",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"v1",
 						"users"
 					],
 					"query": [
@@ -127,13 +128,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/user-auth",
+					"raw": "http://localhost:8080/v1/user-auth",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"v1",
 						"user-auth"
 					]
 				}
@@ -151,7 +153,7 @@
 					},
 					{
 						"key": "Authorization",
-						"value": "Bearer 69ee9004-dd65-4e2e-b6aa-01bffeac1270"
+						"value": "{{AUTHORIZATION}}"
 					},
 					{
 						"key": "Content-Type",
@@ -163,13 +165,14 @@
 					"raw": "{\n   \"email\":\"gabriel@gmail.com\",\n   \"name\":\"gabriel\",\n   \"password\":\"123456\",\n   \"roles\":[\n      \"ROLE_ADMIN\",\n      \"ROLE_USER\"\n   ]\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/users",
+					"raw": "http://localhost:8080/v1/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"v1",
 						"users"
 					]
 				}

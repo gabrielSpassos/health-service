@@ -2,7 +2,7 @@ spring:
   application:
     name: health-service
   datasource:
-    url: jdbc:mysql://localhost:3306/health-db?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://${MYSQL_URL:localhost}:3306/health-db?allowPublicKeyRetrieval=true&autoReconnect=true&autoReconnectForPools=true&socketTimeout=5000&connectTimeout=1000&useSSL=false
     username: admin
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -12,6 +12,9 @@ spring:
     maxIdle: 1
     testWhileIdle: true
     validationQuery: SELECT 1
+    socketTimeout: 3000
+    validationTimeout: 500
+    connectionTimeout: 1000
   jpa:
     generate-ddl: true
     properties:
