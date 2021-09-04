@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-public class UserController {
+public class UserController implements BaseVersion{
 
     private final UserService userService;
     private final UserRepository userRepository;
