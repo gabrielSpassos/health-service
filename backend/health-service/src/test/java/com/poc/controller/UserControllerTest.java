@@ -79,7 +79,7 @@ public class UserControllerTest {
 
         String authorization = "Bearer " + accessTokenDTO.getAccess_token();
 
-        mockMvc.perform(get("/users")
+        mockMvc.perform(get("/v1/users")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
@@ -104,7 +104,7 @@ public class UserControllerTest {
 
         String authorization = "Bearer " + accessTokenDTO.getAccess_token();
 
-        mockMvc.perform(get("/user-auth")
+        mockMvc.perform(get("/v1/user-auth")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
