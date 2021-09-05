@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class MedicalRecordControllerTest {
+class MedicalRecordControllerTest {
 
     @InjectMocks
     private MedicalRecordController medicalRecordController;
