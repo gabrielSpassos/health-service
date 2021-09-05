@@ -1,13 +1,17 @@
 import React from 'react';
-import Home from '../components/signInForm/signInForm';
 import NavBar from '../components/navBar/navBar';
+import VerticalNavBar from '../components/verticalNavBar/verticalNavBar';
+import { Router, Switch, Route } from 'react-router-dom';
 
 
 function HomePage() {
     return (        
       <>
         <NavBar isSignIn={true}/>
-        <h1>Hello World</h1>
+        <VerticalNavBar />
+        <Switch>
+            <Route path="/" />
+        </Switch>        
       </>     
     );
   }

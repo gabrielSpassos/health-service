@@ -2,8 +2,37 @@ import React from 'react';
 import {Row, Col } from 'react-bootstrap';
 import './signInForm.css';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 class SignInForm extends React.Component{
+    componentDidMount(){
+        const auth = {
+            'username': 'client',
+            'password': '123'
+        }
+
+        let bodyFormData = new FormData();
+        bodyFormData.append('username', 'admin@gmail.com');
+        bodyFormData.append('password', 'admin');
+        bodyFormData.append('grant_type', 'password');
+
+        axios({
+            method: "post",
+            url: "http://localhost:8080/oauth/token",
+            data: bodyFormData,
+            headers: { "Content-Type": "multipart/form-data" },
+            auth: {auth}
+          })
+            .then(function (response) {
+              //handle success
+              console.log(response);
+            })
+            .catch(function (response) {
+              //handle error
+              console.log(response);
+            });
+    }
+
     render(){
         return (
             <>
