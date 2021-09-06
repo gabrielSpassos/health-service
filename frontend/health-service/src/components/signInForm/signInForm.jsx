@@ -10,7 +10,7 @@ class SignInForm extends React.Component{
             'username': 'client',
             'password': '123'
         }
-
+        console.log('bombou');
         let bodyFormData = new FormData();
         bodyFormData.append('username', 'admin@gmail.com');
         bodyFormData.append('password', 'admin');

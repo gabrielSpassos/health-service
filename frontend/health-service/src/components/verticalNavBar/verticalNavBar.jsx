@@ -7,7 +7,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 class NavBar extends React.Component {
     state = {
-        sidebar: false
+        sidebar: true
     } 
 
     constructor() {
@@ -18,35 +18,56 @@ class NavBar extends React.Component {
     toggleSideBar () {
         const currentState = this.state.sidebar;
         this.setState({ sidebar: !currentState });
-        console.log(this.state.sidebar);
+    }
+
+    showNavBarIcons = () => {
+        if (this.state.sidebar) {
+            return null; /*<AiOutlineClose size={28} onClick={this.toggleSideBar} />*/
+        }else{
+            return <FaBars size={28} onClick={this.toggleSideBar} />; 
+        }                    
     }
 
     render(){
         return (        
-            <>        
-                <div className="navbar">
-                    <Link to="#" className='menu-bars'>
-                        <FaBars onClick={this.toggleSideBar} />
-                    </Link>
-                </div>
-                <nav className={this.sidebar ? 'nav-menu active' : 'nav-menu'}>
-                    <ul className='nav-menu-items' onClick={this.toggleSideBar}>
-                        <li className="navbar-toggle">
-                            <Link to="#" className="menu-bars">
-                                <AiOutlineClose />
-                            </Link>
-                        </li>
-                        <li className="nav-text">
-                            <Link to="/">
-                                <span>Cadastrar institucionalizado</span>   
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>               
+            <>  <div class="row">
+                    <div className={this.state.sidebar ? 'col-md-2' : ''}>                    
+                        <div className={this.state.sidebar ? 'nav-menu active' : 'nav-menu'}>
+                            <ul className='nav-menu-items'>                                                    
+                                <li className="nav-text">                                                                                  
+                                    <span><b>Informações dos pacientes</b></span>
+                                    <ul className="nav-menu-sub-item">
+                                        <Link to="/registerPatient"> 
+                                        <li>Cadastrar paciente</li>
+                                        </Link>
+                                        <Link to="/searchPatient"> 
+                                            <li>Consultar paciente</li>
+                                        </Link> 
+                                    </ul>                                            
+                                </li>                                                                
+                                <li className="nav-text">
+                                    <Link to="/">                                        
+                                        <span><b>Outros</ b></span>                                       
+                                    </Link>
+                                </li>                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="col-md-1">
+                        <div className={this.state.sidebar ? 'toggleButton activeB' : 'toggleButton'}>
+                            <ul> 
+                                <li className="navbar-toggle">
+                                    <Link to="#" className="menu-bars">
+                                        {this.showNavBarIcons()}                                
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>           
             </>     
         );
     }
 }
-
 
 export default NavBar;
