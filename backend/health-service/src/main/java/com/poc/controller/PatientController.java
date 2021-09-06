@@ -10,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,6 @@ public class PatientController implements BaseVersion {
 
     private final PatientService patientService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/patients")
     public ResponseEntity<Page<PatientDTO>> getPatients(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
@@ -35,7 +33,6 @@ public class PatientController implements BaseVersion {
         return ResponseEntity.ok(patients);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/patients/{id}")
     public ResponseEntity<PatientDTO> getPatientById(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
@@ -44,7 +41,6 @@ public class PatientController implements BaseVersion {
         return ResponseEntity.ok(patient);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN})
     @PostMapping(value = "/patients")
     public ResponseEntity<PatientDTO> createPatient(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,

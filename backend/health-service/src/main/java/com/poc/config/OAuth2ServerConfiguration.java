@@ -37,8 +37,8 @@ public class OAuth2ServerConfiguration {
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            http.cors()
-                    .and().logout()
+            http
+                    .logout()
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
                     .and().authorizeRequests()
