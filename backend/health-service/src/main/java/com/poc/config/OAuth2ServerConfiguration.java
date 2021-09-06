@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 @Configuration
 public class OAuth2ServerConfiguration {
@@ -38,12 +39,19 @@ public class OAuth2ServerConfiguration {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http
-                    .logout()
+                    .addFilterBefore(corsFilter(), SessionManagementFilter.class)
+                    .exceptionHandling()
+                    .and().logout()
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
                     .and().authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .anyRequest().fullyAuthenticated();
+        }
+
+        @Bean
+        CorsFilter corsFilter() {
+            return new CorsFilter();
         }
 
     }

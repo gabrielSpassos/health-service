@@ -65,4 +65,5 @@ public class UserController implements BaseVersion{
                 .getAuthentication()
                 .getPrincipal();
     }
+
 }
