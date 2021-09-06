@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,7 +30,6 @@ public class UserController implements BaseVersion{
     private final UserService userService;
     private final UserRepository userRepository;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN})
     @PostMapping(value = "/users")
     public ResponseEntity<UserEntity> createUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
@@ -41,7 +39,6 @@ public class UserController implements BaseVersion{
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN})
     @PutMapping(value = "/users")
     public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity userEntity) {
@@ -50,7 +47,6 @@ public class UserController implements BaseVersion{
         return ResponseEntity.ok(updatedUser);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/users")
     public ResponseEntity<Page<UserEntity>> getUsers(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
@@ -61,7 +57,6 @@ public class UserController implements BaseVersion{
         return ResponseEntity.ok(users);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/user-auth")
     @ResponseBody
