@@ -7,6 +7,9 @@ class SearchPatient extends React.Component{
     render(){
         return (
             <>
+            <div className="row">
+                <p>Formulário de consulta</p>
+            </div>                
             </>
         );
     }
