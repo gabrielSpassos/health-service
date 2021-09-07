@@ -25,7 +25,7 @@ class MedicalRecordControllerTest {
     private MedicalRecordService medicalRecordService;
 
     @Test
-    public void shouldReturnMedicalRecordByPatientId() {
+    void shouldReturnMedicalRecordByPatientId() {
         PatientDTO patientDTO = PatientStub.createDTO();
         MedicalRecordDTO medicalRecordDTO = MedicalRecordStub.createDTO(patientDTO);
 

@@ -31,7 +31,7 @@ class MedicalRecordServiceTest {
     private MedicalRecordRepository medicalRecordRepository;
 
     @Test
-    public void shouldFindByPatientId() {
+    void shouldFindByPatientId() {
         PatientEntity patientEntity = PatientStub.createEntity();
         MedicalRecordEntity medicalRecordEntity = MedicalRecordStub.createEntity(patientEntity);
 
@@ -44,7 +44,7 @@ class MedicalRecordServiceTest {
     }
 
     @Test
-    public void shouldFindById() {
+    void shouldFindById() {
         RegistryEntity registryEntity = RegistryStub.createEntity();
         PatientEntity patientEntity = PatientStub.createEntity();
         MedicalRecordEntity medicalRecordEntity = MedicalRecordStub.createEntity(patientEntity, registryEntity);

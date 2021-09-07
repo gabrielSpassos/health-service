@@ -44,7 +44,7 @@ class PatientServiceTest {
     private ArgumentCaptor<PatientEntity> argumentCaptor;
 
     @Test
-    public void shouldCreatePatient() {
+    void shouldCreatePatient() {
         PatientRequest patientRequest = PatientStub.createRequest();
         PatientEntity patientEntity = PatientStub.createEntity();
         PatientDTO patientDTO = PatientStub.createDTO();
@@ -94,7 +94,7 @@ class PatientServiceTest {
     }
 
     @Test
-    public void shouldGetPatientById() {
+    void shouldGetPatientById() {
         PatientEntity patientEntity = PatientStub.createEntity();
 
         given(patientRepository.findById(1L)).willReturn(Optional.of(patientEntity));
@@ -106,7 +106,7 @@ class PatientServiceTest {
     }
 
     @Test
-    public void shouldReturnErrorWithPatientNotFound() {
+    void shouldReturnErrorWithPatientNotFound() {
         given(patientRepository.findById(88L)).willReturn(Optional.empty());
 
         PatientNotFoundException error = assertThrows(PatientNotFoundException.class, () -> patientService.getPatientById(88L));

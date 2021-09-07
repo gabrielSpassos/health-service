@@ -26,7 +26,7 @@ class PatientControllerTest {
     private PatientService patientService;
 
     @Test
-    public void shouldReturnPatients() {
+    void shouldReturnPatients() {
         PatientDTO patientDTO = PatientStub.createDTO();
         PageImpl patientsPage = new PageImpl<>(Lists.newArrayList(patientDTO));
 
@@ -40,7 +40,7 @@ class PatientControllerTest {
     }
 
     @Test
-    public void shouldReturnPatientById() {
+    void shouldReturnPatientById() {
         PatientDTO patientDTO = PatientStub.createDTO();
 
         given(patientService.getPatientById(1L)).willReturn(patientDTO);
@@ -53,7 +53,7 @@ class PatientControllerTest {
     }
 
     @Test
-    public void shouldCreatePatient() {
+    void shouldCreatePatient() {
         PatientRequest patientRequest = PatientStub.createRequest();
         PatientDTO patientDTO = PatientStub.createDTO();
 

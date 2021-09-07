@@ -50,6 +50,7 @@ public class UserService {
     public UserDTO updateUser(Long id, UserRequest userRequest) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
+
         deleteRoles(userEntity.getRoles());
 
         List<RoleEntity> newRoles = createRoles(userRequest.getRoles());

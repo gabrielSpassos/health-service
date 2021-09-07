@@ -28,7 +28,7 @@ public class UserController implements BaseVersion {
     @Secured(value = {RoleConstant.ADMIN})
     @PostMapping(value = "/users")
     public ResponseEntity<UserDTO> createUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-                                                 @RequestBody UserRequest userRequest) {
+                                              @RequestBody UserRequest userRequest) {
         UserDTO savedUser = userService.createUser(userRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
@@ -37,8 +37,8 @@ public class UserController implements BaseVersion {
     @Secured(value = {RoleConstant.ADMIN})
     @PutMapping(value = "/users/{id}")
     public ResponseEntity<UserDTO> updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-                                                 @PathVariable("id") Long id,
-                                                 @RequestBody UserRequest userRequest) {
+                                              @PathVariable("id") Long id,
+                                              @RequestBody UserRequest userRequest) {
         UserDTO updatedUser = userService.updateUser(id, userRequest);
 
         return ResponseEntity.ok(updatedUser);
@@ -47,8 +47,8 @@ public class UserController implements BaseVersion {
     @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/users")
     public ResponseEntity<Page<UserDTO>> getUsers(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-                                                     @RequestParam(defaultValue = "0") int page,
-                                                     @RequestParam(defaultValue = "20") int size) {
+                                                  @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "20") int size) {
         Page<UserDTO> users = userService.findUsers(page, size);
         return ResponseEntity.ok(users);
     }
