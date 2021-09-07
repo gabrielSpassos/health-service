@@ -5,6 +5,7 @@ import com.poc.builder.entity.PatientEntityBuilder;
 import com.poc.controller.request.PatientRequest;
 import com.poc.dto.PatientDTO;
 import com.poc.entity.PatientEntity;
+import com.poc.exception.InvalidPatientBirthdateException;
 import com.poc.exception.PatientAlreadyExistentException;
 import com.poc.exception.PatientNotFoundException;
 import com.poc.repository.PatientRepository;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Objects;
 
 @Slf4j
@@ -32,6 +35,8 @@ public class PatientService {
         if (Objects.nonNull(patientAlreadyCreated)) {
             throw new PatientAlreadyExistentException();
         }
+
+        validateBirthdate(patientRequest);
 
         PatientEntity patientEntity = PatientEntityBuilder.build(patientRequest);
         PatientEntity savedPatient = patientRepository.save(patientEntity);
@@ -52,5 +57,13 @@ public class PatientService {
         return patientRepository.findById(id)
                 .map(PatientDTOBuilder::build)
                 .orElseThrow(PatientNotFoundException::new);
+    }
+
+    private void validateBirthdate(PatientRequest patientRequest) {
+        LocalDate today = LocalDate.now(ZoneId.of("America/Sao_Paulo"));
+
+        boolean isBirthdateAfterToday = patientRequest.getBirthdate().isAfter(today);
+
+        if (isBirthdateAfterToday) throw new InvalidPatientBirthdateException();
     }
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @AllArgsConstructor
 public class PatientController implements BaseVersion {
@@ -44,7 +46,7 @@ public class PatientController implements BaseVersion {
     @Secured(value = {RoleConstant.ADMIN})
     @PostMapping(value = "/patients")
     public ResponseEntity<PatientDTO> createPatient(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-                                                       @RequestBody PatientRequest patientRequest) {
+                                                    @Valid @RequestBody PatientRequest patientRequest) {
         PatientDTO patient = patientService.createPatient(patientRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(patient);
     }

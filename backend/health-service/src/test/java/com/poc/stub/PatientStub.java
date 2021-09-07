@@ -3,6 +3,7 @@ package com.poc.stub;
 import com.poc.constant.SexEnum;
 import com.poc.controller.request.PatientRequest;
 import com.poc.dto.PatientDTO;
+import com.poc.entity.PatientEntity;
 
 import java.time.LocalDate;
 
@@ -18,6 +19,18 @@ public class PatientStub {
         patientDTO.setSex(SexEnum.FEMALE);
         patientDTO.setPhone("51988443708");
         return patientDTO;
+    }
+
+    public static PatientEntity createEntity() {
+        PatientEntity patientEntity = new PatientEntity();
+        patientEntity.setId(1L);
+        patientEntity.setName("Amanda Maria da Silva");
+        patientEntity.setCpf("80447242067");
+        patientEntity.setRg("460844167");
+        patientEntity.setBirthdate(LocalDate.parse("1952-10-12"));
+        patientEntity.setSex(SexEnum.FEMALE);
+        patientEntity.setPhone("51988443708");
+        return patientEntity;
     }
 
     public static PatientRequest createRequest() {
