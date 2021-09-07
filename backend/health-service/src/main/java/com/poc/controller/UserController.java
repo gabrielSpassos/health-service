@@ -38,7 +38,9 @@ public class UserController implements BaseVersion {
 
     @Secured(value = {RoleConstant.ADMIN})
     @PutMapping(value = "/users/{id}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserEntity> updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+                                                 @PathVariable("id") Long id,
+                                                 @RequestBody UserRequest userRequest) {
         UserEntity updatedUser = userService.updateUser(id, userRequest);
 
         return ResponseEntity.ok(updatedUser);
