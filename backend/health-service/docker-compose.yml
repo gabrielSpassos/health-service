@@ -18,7 +18,7 @@ services:
       timeout: 20s
       retries: 10
     networks:
-      assembly-net:
+      health-net:
         ipv4_address: 10.5.0.2
 
   health-service-backend:
@@ -32,11 +32,11 @@ services:
     environment:
       MYSQL_URL: mysql
     networks:
-      assembly-net:
+      health-net:
         ipv4_address: 10.5.0.3
 
 networks:
-  assembly-net:
+  health-net:
     driver: bridge
     ipam:
       config:
