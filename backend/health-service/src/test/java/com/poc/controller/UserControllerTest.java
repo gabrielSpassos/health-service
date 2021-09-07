@@ -108,7 +108,7 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("username").value("usuario@gmail.com"))
-                .andExpect(jsonPath("roles[0].authority").value("ROLE_USER"));
+                .andExpect(jsonPath("email").value("usuario@gmail.com"))
+                .andExpect(jsonPath("roles[0].name").value("ROLE_USER"));
     }
 }

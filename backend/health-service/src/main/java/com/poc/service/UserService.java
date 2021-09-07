@@ -1,8 +1,10 @@
 package com.poc.service;
 
+import com.poc.builder.dto.UserDTOBuilder;
 import com.poc.builder.entity.UserEntityBuilder;
 import com.poc.constant.RoleEnum;
 import com.poc.controller.request.UserRequest;
+import com.poc.dto.UserDTO;
 import com.poc.entity.RoleEntity;
 import com.poc.entity.UserEntity;
 import com.poc.exception.UserNotFoundException;
@@ -12,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +31,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public UserEntity createUser(UserRequest userRequest) {
+    public UserDTO createUser(UserRequest userRequest) {
         UserEntity userByEmail = userRepository.findByEmail(userRequest.getEmail());
 
         if (Objects.nonNull(userByEmail)) {
-            return userByEmail;
+            return UserDTOBuilder.build(userByEmail);
         }
 
         List<RoleEntity> roles = createRoles(userRequest.getRoles());
@@ -40,19 +43,11 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(userRequest.getPassword());
         UserEntity userEntity = UserEntityBuilder
                 .create(userRequest.getEmail(), userRequest.getName(), encryptedPassword, roles);
-        return userRepository.save(userEntity);
+        UserEntity savedUser = userRepository.save(userEntity);
+        return UserDTOBuilder.build(savedUser);
     }
 
-    public Page<UserEntity> findUsers(Integer page, Integer size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        return userRepository.findAll(pageRequest);
-    }
-
-    public List<UserEntity> findUsers() {
-        return userRepository.findAll();
-    }
-
-    public UserEntity updateUser(Long id, UserRequest userRequest) {
+    public UserDTO updateUser(Long id, UserRequest userRequest) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
         deleteRoles(userEntity.getRoles());
@@ -62,7 +57,28 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(userRequest.getPassword());
         UserEntity updateUserEntity = UserEntityBuilder
                 .create(userEntity.getId(), userRequest.getEmail(), userRequest.getName(), encryptedPassword, newRoles);
-        return userRepository.save(updateUserEntity);
+        UserEntity updatedUser = userRepository.save(updateUserEntity);
+        return UserDTOBuilder.build(updatedUser);
+    }
+
+    public Page<UserDTO> findUsers(Integer page, Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return userRepository.findAll(pageRequest)
+                .map(UserDTOBuilder::build);
+    }
+
+    public List<UserDTO> findUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(UserDTOBuilder::build)
+                .collect(Collectors.toList());
+    }
+
+    public UserDTO getUserFromToken() {
+        UserEntity user = (UserEntity) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return UserDTOBuilder.build(user);
     }
 
     private List<RoleEntity> createRoles(List<RoleEnum> roles) {
