@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -72,7 +71,6 @@ class UserServiceTest {
         RoleEntity roleEntity = RoleStub.createEntity();
 
         given(userRepository.findById(1L)).willReturn(Optional.of(userEntity));
-        doNothing().when(roleRepository).delete(roleEntity);
         given(roleRepository.save(roleArgumentCaptor.capture())).willReturn(roleEntity);
         given(userRepository.save(userArgumentCaptor.capture())).willReturn(userEntity);
 
