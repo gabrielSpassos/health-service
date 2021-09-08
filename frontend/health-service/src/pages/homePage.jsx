@@ -1,15 +1,16 @@
 import React from 'react';
 import NavBar from '../components/navBar/navBar';
 import VerticalNavBar from '../components/verticalNavBar/verticalNavBar';
-import { Redirect } from 'react-router-dom';
+import SearchPatient from '../components/searchPatient/searchPatient';
+import { Redirect, useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-class HomePage extends React.Component {
+class HomePage extends React.Component {    
     constructor(){
       super();
       this.state={        
         ck: false
-      }
+      }      
     }    
 
     componentDidMount(){
@@ -28,7 +29,10 @@ class HomePage extends React.Component {
         <>
           <div className="container-fluid">
             <NavBar buttonType={'home'}/>
-            <VerticalNavBar />
+            <div className="row">
+              <VerticalNavBar />
+              <SearchPatient />
+            </div>
           </div>
         </>     
       );

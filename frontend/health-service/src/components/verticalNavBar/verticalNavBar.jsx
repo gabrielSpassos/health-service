@@ -30,36 +30,24 @@ class NavBar extends React.Component {
 
     render(){
         return (        
-            <>  <div className="row">
-                    <div className={this.state.sidebar ? 'col-md-2' : ''}>                    
-                        <div className={this.state.sidebar ? 'nav-menu active' : 'nav-menu'}>
-                            <ul className='nav-menu-items'>                                                    
-                                <li className="nav-text">                                                                                  
-                                    <span><b>Informações dos pacientes</b></span>
-                                    <ul className="nav-menu-sub-item">
-                                        <Link to="/registerPatient"> 
+            <> 
+                <div className={this.state.sidebar ? 'col-md-2' : ''}>                    
+                    <div className={this.state.sidebar ? 'nav-menu active' : 'nav-menu'}>
+                        <ul className='nav-menu-items'>                                                    
+                            <li className="nav-text">                                                                                  
+                                <span><b>Informações dos pacientes</b></span>
+                                <ul className="nav-menu-sub-item">
+                                    <Link to="/registerPatient"> 
                                         <li>Cadastrar paciente</li>
-                                        </Link>
-                                        <Link to="/searchPatient"> 
-                                            <li>Consultar paciente</li>
-                                        </Link> 
-                                    </ul>                                            
-                                </li>                                                                                               
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="col-md-1">
-                        <div className={this.state.sidebar ? 'toggleButton activeB' : 'toggleButton'}>
-                            <ul> 
-                                <li className="navbar-toggle">
-                                    <Link to="#" className="menu-bars">
-                                        {this.showNavBarIcons()}                                
                                     </Link>
-                                </li>
-                            </ul>
-                        </div>
+                                    <Link to="/searchPatient"> 
+                                        <li>Consultar paciente</li>
+                                    </Link> 
+                                </ul>                                            
+                            </li>                                                                                               
+                        </ul>
                     </div>
-                </div>           
+                </div>         
             </>     
         );
     }
