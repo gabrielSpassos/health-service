@@ -36,7 +36,7 @@ public class PatientControllerSpringTest {
     private static final String USER_PASSWORD = "user";
 
     @Test
-    public void shouldCreatePatient() throws Exception {
+    void shouldCreatePatient() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", ADMIN_USERNAME, ADMIN_PASSWORD);
 
         ResultActions resultActions = mockMvc.perform(post("/oauth/token")
@@ -67,7 +67,7 @@ public class PatientControllerSpringTest {
     }
 
     @Test
-    public void shouldReturnErrorToCreatePatientWithAccessDenied() throws Exception {
+    void shouldReturnErrorToCreatePatientWithAccessDenied() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", USER_USERNAME, USER_PASSWORD);
 
         ResultActions resultActions = mockMvc.perform(post("/oauth/token")
@@ -93,7 +93,7 @@ public class PatientControllerSpringTest {
     }
 
     @Test
-    public void shouldReturnErrorToCreatePatientWithInvalidName() throws Exception {
+    void shouldReturnErrorToCreatePatientWithInvalidName() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", ADMIN_USERNAME, ADMIN_PASSWORD);
 
         ResultActions resultActions = mockMvc.perform(post("/oauth/token")

@@ -23,7 +23,7 @@ class RegistryControllerTest {
     private RegistryService registryService;
 
     @Test
-    public void shouldCreateRegistry() {
+    void shouldCreateRegistry() {
         RegistryRequest registryRequest = RegistryStub.createRequest();
         RegistryDTO registryDTO = RegistryStub.createDTO();
 
@@ -38,7 +38,7 @@ class RegistryControllerTest {
     }
 
     @Test
-    public void shouldUpdateRegistry() {
+    void shouldUpdateRegistry() {
         RegistryRequest registryRequest = RegistryStub.createRequest();
         RegistryDTO registryDTO = RegistryStub.createDTO();
 

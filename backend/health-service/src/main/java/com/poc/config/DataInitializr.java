@@ -6,7 +6,7 @@ import com.poc.constant.SexEnum;
 import com.poc.controller.request.PatientRequest;
 import com.poc.controller.request.UserRequest;
 import com.poc.dto.PatientDTO;
-import com.poc.entity.UserEntity;
+import com.poc.dto.UserDTO;
 import com.poc.service.PatientService;
 import com.poc.service.UserService;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class DataInitializr implements ApplicationListener<ContextRefreshedEvent
     }
 
     private void createUsersIfEmpty() {
-        List<UserEntity> users = userService.findUsers();
+        List<UserDTO> users = userService.findUsers();
 
         if (users.isEmpty()) {
             createUser("admin@gmail.com", "admin", "admin", RoleEnum.ROLE_ADMIN);

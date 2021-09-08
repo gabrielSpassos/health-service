@@ -37,7 +37,7 @@ public class UserControllerTest {
     private static final String USER_PASSWORD = "user";
 
     @Test
-    public void shouldCreateAdminAccessToken() throws Exception {
+    void shouldCreateAdminAccessToken() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", ADMIN_USERNAME, ADMIN_PASSWORD);
 
         mockMvc.perform(post("/oauth/token")
@@ -50,7 +50,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldCreateUserAccessToken() throws Exception {
+    void shouldCreateUserAccessToken() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", USER_USERNAME, USER_PASSWORD);
 
         mockMvc.perform(post("/oauth/token")
@@ -63,7 +63,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldGetUsers() throws Exception {
+    void shouldGetUsers() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", ADMIN_USERNAME, ADMIN_PASSWORD);
 
         ResultActions resultActions = mockMvc.perform(post("/oauth/token")
@@ -88,7 +88,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldGetAuthUser() throws Exception {
+    void shouldGetAuthUser() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", USER_USERNAME, USER_PASSWORD);
 
         ResultActions resultActions = mockMvc.perform(post("/oauth/token")
@@ -108,7 +108,47 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("username").value("usuario@gmail.com"))
-                .andExpect(jsonPath("roles[0].authority").value("ROLE_USER"));
+                .andExpect(jsonPath("email").value("usuario@gmail.com"))
+                .andExpect(jsonPath("roles[0].name").value("ROLE_USER"));
+    }
+
+    @Test
+    void shouldCreateUser() throws Exception {
+        String content = String.format("grant_type=password&username=%s&password=%s", ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        ResultActions resultActions = mockMvc.perform(post("/oauth/token")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .header(HttpHeaders.AUTHORIZATION, BASIC_HEADER)
+                .content(content))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("access_token").isNotEmpty());
+
+        MvcResult mvcResult = resultActions.andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        AccessTokenDTO accessTokenDTO = objectMapper.readValue(contentAsString, AccessTokenDTO.class);
+
+        String authorization = "Bearer " + accessTokenDTO.getAccess_token();
+
+        mockMvc.perform(post("/v1/users")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(Resources.CREATE_USER_REQUEST_BODY)
+                .header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").isNotEmpty())
+                .andExpect(jsonPath("email").value("test@gmail.com"))
+                .andExpect(jsonPath("name").value("Tester"))
+                .andExpect(jsonPath("roles[0].name").value("ROLE_ADMIN"));
+    }
+
+    private class Resources {
+        static final String CREATE_USER_REQUEST_BODY =
+                "{\n" +
+                "  \"email\": \"test@gmail.com\",\n" +
+                "  \"name\": \"Tester\",\n" +
+                "  \"password\": \"123456\",\n" +
+                "  \"roles\": [\n" +
+                "    \"ROLE_ADMIN\"\n" +
+                "  ]\n" +
+                "}";
     }
 }
