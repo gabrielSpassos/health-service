@@ -7,12 +7,6 @@
     text-decoration: none;
 }
 
-.navBarSignButton:hover{
-    background-color:#D2E5D0;
-    text-decoration: none;
-    color:grey;
-}
-
 .navBar{
     padding: 1.0rem;
     background-color: #2ebfa8;

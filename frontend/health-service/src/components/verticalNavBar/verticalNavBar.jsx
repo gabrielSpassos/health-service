@@ -22,7 +22,7 @@ class NavBar extends React.Component {
 
     showNavBarIcons = () => {
         if (this.state.sidebar) {
-            return null; /*<AiOutlineClose size={28} onClick={this.toggleSideBar} />*/
+            return null;
         }else{
             return <FaBars size={28} onClick={this.toggleSideBar} />; 
         }                    
@@ -30,7 +30,7 @@ class NavBar extends React.Component {
 
     render(){
         return (        
-            <>  <div class="row">
+            <>  <div className="row">
                     <div className={this.state.sidebar ? 'col-md-2' : ''}>                    
                         <div className={this.state.sidebar ? 'nav-menu active' : 'nav-menu'}>
                             <ul className='nav-menu-items'>                                                    
@@ -44,12 +44,7 @@ class NavBar extends React.Component {
                                             <li>Consultar paciente</li>
                                         </Link> 
                                     </ul>                                            
-                                </li>                                                                
-                                <li className="nav-text">
-                                    <Link to="/">                                        
-                                        <span><b>Outros</ b></span>                                       
-                                    </Link>
-                                </li>                                
+                                </li>                                                                                               
                             </ul>
                         </div>
                     </div>

@@ -1,75 +1,98 @@
 import React from 'react';
-import {Row, Col } from 'react-bootstrap';
 import './signInForm.css';
-import {Link} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 class SignInForm extends React.Component{
-    componentDidMount(){
-        const auth = {
-            'username': 'client',
-            'password': '123'
+    constructor(){
+        super();
+        this.state={        
+            redirect: false,
+            account: {username: "", password: ""},
+            errors: {}
         }
-        console.log('bombou');
+        this.handleLoginUser = this.handleLoginUser.bind(this);
+    }
+
+    validate = () => {
+        const errors = {};
+        const { account } = this.state;
+
+        if (account.username.trim() === ''){
+            errors.username = 'O campo usuário é obrigatório.'
+        }
+        if (account.password.trim() === ''){
+            errors.password = 'O campo senha é obrigatório.'
+        }
+
+        return Object.keys(errors).length === 0 ? null : errors;
+    };
+
+    handleLoginUser = e =>{
+        e.preventDefault();
+
+        const errors = this.validate();
+        this.setState({errors: errors || {}});
+
+        if (errors) return;
+
+        let that = this;
         let bodyFormData = new FormData();
-        bodyFormData.append('username', 'admin@gmail.com');
-        bodyFormData.append('password', 'admin');
+
+        bodyFormData.append('username', this.state.account.username);
+        bodyFormData.append('password', this.state.account.password);
         bodyFormData.append('grant_type', 'password');
 
         axios({
-            method: "post",
-            url: "http://localhost:8080/oauth/token",
+            method: 'post',
+            url: 'http://localhost:8080/oauth/token',
             data: bodyFormData,
-            headers: { "Content-Type": "multipart/form-data" },
-            auth: {auth}
-          })
-            .then(function (response) {
-              //handle success
-              console.log(response);
-            })
-            .catch(function (response) {
-              //handle error
-              console.log(response);
-            });
+            headers: { "Authorization" : "Basic Y2xpZW50OjEyMw==" } 
+        })
+        .then(function (response) { 
+            if (response.status === 200){           
+                Cookies.set('token', response.data['access_token']);
+                that.setState({
+                    redirect: true
+                });
+            }                  
+        })
+        .catch(function (error) {
+            const errors = {};
+            errors.invalidCredentials = 'Usuário e/ou senha inválidos.'
+            that.setState({errors: errors});
+            console.log('Error Debug: ', error);
+        });
+    }
+
+    handleChange = ({currentTarget: input}) =>{        
+        const account = {...this.state.account};        
+        account[input.name] = input.value;
+        this.setState({ account });
     }
 
     render(){
-        return (
+        const { account } = this.state;
+        if (this.state.redirect) {
+            return <Redirect to="/home" />
+        }
+        return (            
             <>
-                <Row>
-                    <Col className="form-box" md={{ span: 5, offset: 3 }}>
-                        <Row>
-                            <Col md={{ offset: 5 }} xs={{ offset: 4 }}>
-                                <p className="form-title">Entrar</p>                                
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={{ offset: 4 }} xs={{ offset: 2 }}>                                
-                                <p className="form-subtitle">Informe seu usuário e senha para entrar.</p>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={{ offset: 2 }}>
-                                <input className="form-input" type="text" placeholder="E-mail" />                    
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={{ offset: 2 }}>                                        
-                                <input className="form-input" type="password" placeholder="Senha" />
-                            </Col>                                                
-                        </Row>
-                        <Row>
-                            <Col md={{ offset: 2 }}>
-                                <button className="form-button">Entrar</button>                    
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={{ offset: 2 }}>                                
-                                <p className="form-aux-text">Não tem uma conta? <Link to="/signUp">Cadastre-se</Link></p>                                
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
+                <div className="row d-flex justify-content-center">
+                    <div className="col-xs-5 col-md-3 col-sm-7 text-center form-box">
+                        <p className="form-title">Entrar</p>
+                        <p className="form-subtitle">Informe seu e-mail e senha para entrar.</p>
+                        <form onSubmit={this.handleLoginUser}>
+                            {this.state.errors['invalidCredentials'] && <div className="alert alert-danger">{this.state.errors['invalidCredentials']}</div>}
+                            <input value={account.username} name="username" id="username" onChange={this.handleChange} className="form-input" type="text" placeholder="E-mail" />
+                            {this.state.errors['username'] && <div className="alert alert-danger">{this.state.errors['username']}</div>}
+                            <input value={account.password} name="password" id="password" onChange={this.handleChange} className="form-input" type="password" placeholder="Senha" />
+                            {this.state.errors['password'] && <div className="alert alert-danger">{this.state.errors['password']}</div>}
+                            <input className="formu-button" type="submit" value="Entrar"/>
+                        </form>
+                    </div>
+                </div>
             </>
         );
     }

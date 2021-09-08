@@ -6,8 +6,10 @@ import NavBar from '../components/navBar/navBar';
 function SignIn() {
     return (        
       <>
-        <NavBar isSignIn={true}/>
-        <SignInForm />
+        <div className="container-fluid">
+          <NavBar isSignIn={true}/>
+          <SignInForm />
+        </div>
       </>     
     );
   }

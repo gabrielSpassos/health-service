@@ -1,12 +1,10 @@
 import React from 'react';
-import {Row, Col } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
 
 class SearchPatient extends React.Component{
     render(){
         return (
             <>
+              <h1>Hello World</h1>  
             </>
         );
     }

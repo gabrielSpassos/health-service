@@ -1,15 +1,16 @@
 import './App.css';
-import {Route, Switch } from 'react-router-dom';
-import SignIn from './pages/signInPage';
-import SignUp from './pages/signUpPage';
-import HomePage from './pages/homePage';
+import React from 'react';
+import {lastIndexOf, substr} from '@7urtle/lambda';
+import {BrowserRouter as Router} from 'react-router-dom';
+import Routes from './Routes';
+
+const getBasename = path => substr(lastIndexOf('/')(path))(0)(path);
 
 function App() {
   return (    
-      <Switch>        
-        <Route path="/signUp" component={SignUp}/>
-        <Route path="/" component={HomePage}/>
-      </Switch>
+    <Router basename={getBasename(window.location.pathname)}>
+      <Routes />
+    </Router>    
   );
 }
 

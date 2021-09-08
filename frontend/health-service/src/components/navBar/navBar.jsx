@@ -11,15 +11,15 @@ class NavBar extends React.Component {
 
     render(){
         return (        
-            <>        
-                <Row className="navBar">
-                    <Col>
+            <>
+                <div className="row navBar">
+                    <div className="col">
                         <img src="app-icon.png" height="50px" alt="Logo of the application"></img>
-                    </Col>
-                    <Col>
-                        {this.renderNavButton()}
-                    </Col>
-                </Row>              
+                    </div>
+                    <div className="col">
+                        {this.renderNavButton()}   
+                    </div>
+                </div>            
             </>     
         );
     }
