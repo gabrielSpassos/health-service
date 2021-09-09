@@ -1,9 +1,7 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
 import './verticalNavBar.css';
 import {Link} from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
-import { AiOutlineClose } from 'react-icons/ai';
 
 class NavBar extends React.Component {
     state = {

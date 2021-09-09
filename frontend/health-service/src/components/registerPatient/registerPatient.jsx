@@ -1,36 +1,66 @@
 import React from 'react';
-import './searchPatient.css';
+import './registerPatient.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import NavBar from './../navBar/navBar';
 import VerticalNavBar from './../verticalNavBar/verticalNavBar';
 
-class SearchPatient extends React.Component{
+class RegisterPatient extends React.Component{
     constructor(){
         super();
-        this.state={
-            patient: {name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""},        
-            patients: [{name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""}],
+        this.state={        
+            patient: {name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""},
             errors: {}
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    validate = () => {
+        const errors = {};
+        const { patient } = this.state;
+
+        if (patient.name.trim() === ''){
+            errors.name = 'O campo Nome completo é obrigatório.'
+        }
+        if (patient.cpf.trim() === ''){
+            errors.cpf = 'O campo CPF é obrigatório.'
+        }
+        if (patient.rg.trim() === ''){
+            errors.rg = 'O campo RG é obrigatório.'
+        }
+        if (patient.birthdate.trim() === ''){
+            errors.birthdate = 'O campo Data de nascimento é obrigatório.'
+        }
+        if (patient.sex.trim() === ''){
+            errors.sex = 'O campo Sexo é obrigatório.'
+        }
+
+        return Object.keys(errors).length === 0 ? null : errors;
+    };
+
     handleSubmit = e =>{
         e.preventDefault();
-        
+
+        const errors = this.validate();
+        this.setState({errors: errors || {}});
+
+        if (errors) return;
+
         let that = this;
+        let bodyJson = JSON.stringify(this.state.patient);
+        console.log('body: ', bodyJson);
         const token = 'Bearer ' + Cookies.get('token');
         console.log('token: ', token);
 
         axios({
-            method: 'get',
+            method: 'post',
             url: 'http://localhost:8080/v1/patients',
+            data: bodyJson,
             headers: { "Authorization" : "Bearer" + token } 
         })
         .then(function (response) { 
             if (response.status === 200){           
-                console.log('bombou', response);   
+                alert('Paciente cadastrado com sucesso');
             }                  
         })
         .catch(function (error) {
@@ -51,16 +81,16 @@ class SearchPatient extends React.Component{
         const { patient } = this.state;
 
         return (
-            <>  
+            <>
                 <div className="container-fluid">
                     <NavBar buttonType={'home'}/>                
                     <div className="row">
-                        <VerticalNavBar />  
+                        <VerticalNavBar />                           
                         <div className="col-8">                    
                             <div className="row d-flex justify-content-start">
                                 {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
                                 <div className="form-box">
-                                    <h2>Consultar institucionalizado</h2>
+                                    <h2>Cadastrar institucionalizado</h2>
                                     <br />
                                     <form onSubmit={this.handleSubmit}>
                                         <div className="row">
@@ -78,53 +108,36 @@ class SearchPatient extends React.Component{
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-md-3">
-                                                <input className="form-button" type="submit" value="Buscar" />
+                                            <div className="col">
+                                                <input type="text" name="birthdate" id="birthdate" onChange={this.handleChange} value={patient.birthdate} className="form-input" placeholder="Data de nascimento" />
+                                                {this.state.errors['birthdate'] && <div className="alert alert-danger">{this.state.errors['birthdate']}</div>}
                                             </div>
-                                        </div>                                                                                                                                                            
+                                            <div className="col">
+                                                <input type="text" name="phone" id="phone" onChange={this.handleChange} value={patient.phone} className="form-input" placeholder="Telefone de contato" />                                
+                                            </div>
+                                            <div className="col">
+                                                <select name="sex" id="sex" onChange={this.handleChange} className="form-input" value={patient.sex}>
+                                                    <option value="">Selecionar</option>
+                                                    <option value="MALE">Masculino</option>
+                                                    <option value="FEMALE">Feminino</option>
+                                                </select>
+                                                {this.state.errors['sex'] && <div className="alert alert-danger">{this.state.errors['sex']}</div>}
+                                            </div>    
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-3">                                                
+                                                <input className="form-button" type="submit" value="Cadastrar" />
+                                            </div>
+                                        </div>                                                                                                                                                                
                                     </form>
                                 </div>
                             </div>
-                            {this.state.patientsTable &&
-                                <div className="row d-flex justify-content-start">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Nome</th>
-                                                <th scope="col">RG</th>
-                                                <th scope="col">CPF</th>
-                                                <th scope="col">Data de nascimento</th>                                        
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>   
-                                </div>
-                            }    
                         </div>
-                    </div>
-                </div>          
+                    </div> 
+                </div>             
             </>
         );
     }
 }
 
-export default SearchPatient;
+export default RegisterPatient;

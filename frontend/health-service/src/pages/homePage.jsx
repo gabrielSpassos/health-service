@@ -1,8 +1,7 @@
 import React from 'react';
 import NavBar from '../components/navBar/navBar';
 import VerticalNavBar from '../components/verticalNavBar/verticalNavBar';
-import SearchPatient from '../components/searchPatient/searchPatient';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 class HomePage extends React.Component {    
@@ -30,8 +29,7 @@ class HomePage extends React.Component {
           <div className="container-fluid">
             <NavBar buttonType={'home'}/>
             <div className="row">
-              <VerticalNavBar />
-              <SearchPatient />
+              <VerticalNavBar />           
             </div>
           </div>
         </>     
