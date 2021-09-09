@@ -4,12 +4,14 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import NavBar from './../navBar/navBar';
 import VerticalNavBar from './../verticalNavBar/verticalNavBar';
+import General from './../general/general';
+import Anamnesis from '../anamnesis/anamnesis';
 
 class UpdatePatient extends React.Component{
     constructor(){
         super();
         this.state={
-            patient: {name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""},        
+            patient: {name: "Matheus da Rosa Pinheiro", cpf: "00000000000", rg: "00000000", sex: "MALE", phone: "51999334183", birthdate: "29/11/1994"},        
             patients: [{name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""}],
             errors: {}
         }
@@ -74,9 +76,7 @@ class UpdatePatient extends React.Component{
                                     </ul>
                                 </div>                                
                             </div>
-                            <div className="row d-flex justify-content-start">                                                                
-                                <h4>Informações gerais</h4>
-                            </div>                            
+                            <General />
                         </div>
                     </div>
                 </div>          

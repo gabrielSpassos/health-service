@@ -4,13 +4,16 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import NavBar from './../navBar/navBar';
 import VerticalNavBar from './../verticalNavBar/verticalNavBar';
+import { Link } from 'react-router-dom';
 
 class SearchPatient extends React.Component{
     constructor(){
         super();
         this.state={
             patient: {name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""},        
-            patients: [{name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""}],
+            patients: [{name: "Matheus da Rosa Pinheiro", cpf: "00000000000", rg: "000000000", sex: "", phone: "", birthdate: "", id: "2"},
+                       {name: "Senhorzinho Malandro", cpf: "00000000000", rg: "000000000", sex: "", phone: "", birthdate: "", id: "2"},
+            ],
             errors: {}
         }
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -85,7 +88,7 @@ class SearchPatient extends React.Component{
                                     </form>
                                 </div>
                             </div>
-                            {this.state.patientsTable &&
+                            {this.state.patients &&
                                 <div className="row d-flex justify-content-start">
                                     <table class="table">
                                         <thead>
@@ -93,28 +96,20 @@ class SearchPatient extends React.Component{
                                                 <th scope="col">Nome</th>
                                                 <th scope="col">RG</th>
                                                 <th scope="col">CPF</th>
-                                                <th scope="col">Data de nascimento</th>                                        
+                                                <th scope="col">Ação</th>                                      
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
+                                            {this.state.patients.map(pt => {
+                                                return(
+                                                    <tr>
+                                                        <th scope="row">{pt.name}</th>
+                                                        <td>{pt.rg}</td>
+                                                        <td>{pt.cpf}</td>
+                                                        <td><Link to="/updatePatient">Visualizar prontuário</Link></td>
+                                                    </tr>
+                                                ); 
+                                            })}                                           
                                         </tbody>
                                     </table>   
                                 </div>
