@@ -64,6 +64,44 @@ public class UserControllerTest {
 
     @Test
     void shouldGetUsers() throws Exception {
+        String authorization = createAdminAccessToken();
+
+        mockMvc.perform(get("/v1/users")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("content[0].email").value("admin@gmail.com"))
+                .andExpect(jsonPath("content[0].roles[0].name").value("ROLE_ADMIN"));
+    }
+
+    @Test
+    void shouldGetAuthUser() throws Exception {
+        String authorization = createUserAccessToken();
+
+        mockMvc.perform(get("/v1/user-auth")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("email").value("usuario@gmail.com"))
+                .andExpect(jsonPath("roles[0].name").value("ROLE_USER"));
+    }
+
+    @Test
+    void shouldCreateUser() throws Exception {
+        String authorization = createAdminAccessToken();
+
+        mockMvc.perform(post("/v1/users")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(Resources.CREATE_USER_REQUEST_BODY)
+                .header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").isNotEmpty())
+                .andExpect(jsonPath("email").value("test@gmail.com"))
+                .andExpect(jsonPath("name").value("Tester"))
+                .andExpect(jsonPath("roles[0].name").value("ROLE_ADMIN"));
+    }
+
+    private String createAdminAccessToken() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", ADMIN_USERNAME, ADMIN_PASSWORD);
 
         ResultActions resultActions = mockMvc.perform(post("/oauth/token")
@@ -77,18 +115,11 @@ public class UserControllerTest {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         AccessTokenDTO accessTokenDTO = objectMapper.readValue(contentAsString, AccessTokenDTO.class);
 
-        String authorization = "Bearer " + accessTokenDTO.getAccess_token();
 
-        mockMvc.perform(get("/v1/users")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, authorization))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("content[0].email").value("admin@gmail.com"))
-                .andExpect(jsonPath("content[0].roles[0].name").value("ROLE_ADMIN"));
+        return "Bearer " + accessTokenDTO.getAccess_token();
     }
 
-    @Test
-    void shouldGetAuthUser() throws Exception {
+    private String createUserAccessToken() throws Exception {
         String content = String.format("grant_type=password&username=%s&password=%s", USER_USERNAME, USER_PASSWORD);
 
         ResultActions resultActions = mockMvc.perform(post("/oauth/token")
@@ -102,42 +133,7 @@ public class UserControllerTest {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         AccessTokenDTO accessTokenDTO = objectMapper.readValue(contentAsString, AccessTokenDTO.class);
 
-        String authorization = "Bearer " + accessTokenDTO.getAccess_token();
-
-        mockMvc.perform(get("/v1/user-auth")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, authorization))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("email").value("usuario@gmail.com"))
-                .andExpect(jsonPath("roles[0].name").value("ROLE_USER"));
-    }
-
-    @Test
-    void shouldCreateUser() throws Exception {
-        String content = String.format("grant_type=password&username=%s&password=%s", ADMIN_USERNAME, ADMIN_PASSWORD);
-
-        ResultActions resultActions = mockMvc.perform(post("/oauth/token")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .header(HttpHeaders.AUTHORIZATION, BASIC_HEADER)
-                .content(content))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("access_token").isNotEmpty());
-
-        MvcResult mvcResult = resultActions.andReturn();
-        String contentAsString = mvcResult.getResponse().getContentAsString();
-        AccessTokenDTO accessTokenDTO = objectMapper.readValue(contentAsString, AccessTokenDTO.class);
-
-        String authorization = "Bearer " + accessTokenDTO.getAccess_token();
-
-        mockMvc.perform(post("/v1/users")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(Resources.CREATE_USER_REQUEST_BODY)
-                .header(HttpHeaders.AUTHORIZATION, authorization))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").isNotEmpty())
-                .andExpect(jsonPath("email").value("test@gmail.com"))
-                .andExpect(jsonPath("name").value("Tester"))
-                .andExpect(jsonPath("roles[0].name").value("ROLE_ADMIN"));
+        return "Bearer " + accessTokenDTO.getAccess_token();
     }
 
     private class Resources {
