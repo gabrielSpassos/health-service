@@ -17,6 +17,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -79,6 +80,7 @@ class PatientServiceTest {
 
         assertEquals("1", error.getErrorDTO().getCode());
         assertEquals("Paciente já cadastrado", error.getErrorDTO().getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, error.getHttpStatus());
     }
 
     @Test
@@ -91,6 +93,7 @@ class PatientServiceTest {
 
         assertEquals("6", error.getErrorDTO().getCode());
         assertEquals("Data de nascimento do paciente inválida", error.getErrorDTO().getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, error.getHttpStatus());
     }
 
     @Test
