@@ -5,6 +5,8 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./backend/health-service
 
     steps:
       - uses: actions/checkout@v2
@@ -14,7 +16,8 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Enter backend folder
-        run: cd ./backend/health-service/
+        run: ls -R
+        working-directory: ${{env.working-directory}}
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
