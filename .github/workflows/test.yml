@@ -15,6 +15,9 @@ jobs:
           distribution: 'adopt'
       - name: Enter backend folder
         run: cd backend/health-service/
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
       - name: Test with Gradle
         run: ./gradlew clean test
       - run: echo "🍏 This job's status is ${{ job.status }}."
