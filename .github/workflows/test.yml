@@ -15,12 +15,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Enter backend folder
-        run: ls -R
-        working-directory: ${{env.working-directory}}
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
       - name: Test with Gradle
         run: ./gradlew clean test
+        working-directory: ${{env.working-directory}}
       - run: echo "🍏 This job's status is ${{ job.status }}."
