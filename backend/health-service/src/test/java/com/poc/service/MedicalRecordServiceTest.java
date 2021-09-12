@@ -4,6 +4,7 @@ import com.poc.dto.MedicalRecordDTO;
 import com.poc.entity.MedicalRecordEntity;
 import com.poc.entity.PatientEntity;
 import com.poc.entity.RegistryEntity;
+import com.poc.exception.MedicalRecordNotFoundException;
 import com.poc.repository.MedicalRecordRepository;
 import com.poc.stub.MedicalRecordStub;
 import com.poc.stub.PatientStub;
@@ -13,11 +14,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
@@ -41,6 +44,18 @@ class MedicalRecordServiceTest {
 
         assertEquals(1L, medicalRecordDTO.getId());
         assertTrue(medicalRecordDTO.getRegistries().isEmpty());
+    }
+
+    @Test
+    void shouldReturnErrorForNotFoundPatientId() {
+        given(medicalRecordRepository.findByPatientId(1L)).willReturn(null);
+
+        MedicalRecordNotFoundException error = assertThrows(MedicalRecordNotFoundException.class,
+                () -> medicalRecordService.findByPatientId(1L));
+
+        assertEquals("3", error.getErrorDTO().getCode());
+        assertEquals("Prontuário não encontrado", error.getErrorDTO().getMessage());
+        assertEquals(HttpStatus.NOT_FOUND, error.getHttpStatus());
     }
 
     @Test
