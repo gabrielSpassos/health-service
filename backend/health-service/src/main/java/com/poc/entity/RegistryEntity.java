@@ -37,6 +37,30 @@ public class RegistryEntity {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "PATIENT_HAS_HEADACHE")
+    private Boolean patientHasHeadache;
+
+    @Column(name = "PATIENT_HAS_DIZZINESS")
+    private Boolean patientHasDizziness;
+
+    @Column(name = "PATIENT_HAS_NAUSEA")
+    private Boolean patientHasNausea;
+
+    @Column(name = "PATIENT_HAS_FATIGUE")
+    private Boolean patientHasFatigue;
+
+    @Column(name = "PATIENT_HAS_TREMORS")
+    private Boolean patientHasTremors;
+
+    @Column(name = "PATIENT_FEELS_TINNITUS")
+    private Boolean patientFeelsTinnitus;
+
+    @Column(name = "PATIENT_FEELS_PAIN")
+    private Boolean patientFeelsPain;
+
+    @Column(name = "PATIENT_HAS_OTHER_SYMPTOM")
+    private Boolean patientHasOtherSymptom;
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

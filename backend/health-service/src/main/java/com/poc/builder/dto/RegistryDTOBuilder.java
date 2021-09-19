@@ -9,6 +9,14 @@ public class RegistryDTOBuilder {
         return RegistryDTO.builder()
                 .id(registryEntity.getId())
                 .description(registryEntity.getDescription())
+                .patientHasHeadache(registryEntity.getPatientHasHeadache())
+                .patientHasDizziness(registryEntity.getPatientHasDizziness())
+                .patientHasNausea(registryEntity.getPatientHasNausea())
+                .patientHasFatigue(registryEntity.getPatientHasFatigue())
+                .patientHasTremors(registryEntity.getPatientHasTremors())
+                .patientFeelsTinnitus(registryEntity.getPatientFeelsTinnitus())
+                .patientFeelsPain(registryEntity.getPatientFeelsPain())
+                .patientHasOtherSymptom(registryEntity.getPatientHasOtherSymptom())
                 .build();
     }
 }

@@ -10,6 +10,14 @@ public class RegistryEntityBuilder {
         return RegistryEntity.builder()
                 .medicalRecord(medicalRecordEntity)
                 .description(registryRequest.getDescription())
+                .patientHasHeadache(registryRequest.getPatientHasHeadache())
+                .patientHasDizziness(registryRequest.getPatientHasDizziness())
+                .patientHasNausea(registryRequest.getPatientHasNausea())
+                .patientHasFatigue(registryRequest.getPatientHasFatigue())
+                .patientHasTremors(registryRequest.getPatientHasTremors())
+                .patientFeelsTinnitus(registryRequest.getPatientFeelsTinnitus())
+                .patientFeelsPain(registryRequest.getPatientFeelsPain())
+                .patientHasOtherSymptom(registryRequest.getPatientHasOtherSymptom())
                 .build();
     }
 
@@ -18,6 +26,14 @@ public class RegistryEntityBuilder {
                 .id(registryEntity.getId())
                 .medicalRecord(registryEntity.getMedicalRecord())
                 .description(registryRequest.getDescription())
+                .patientHasHeadache(registryRequest.getPatientHasHeadache())
+                .patientHasDizziness(registryRequest.getPatientHasDizziness())
+                .patientHasNausea(registryRequest.getPatientHasNausea())
+                .patientHasFatigue(registryRequest.getPatientHasFatigue())
+                .patientHasTremors(registryRequest.getPatientHasTremors())
+                .patientFeelsTinnitus(registryRequest.getPatientFeelsTinnitus())
+                .patientFeelsPain(registryRequest.getPatientFeelsPain())
+                .patientHasOtherSymptom(registryRequest.getPatientHasOtherSymptom())
                 .build();
     }
 }
