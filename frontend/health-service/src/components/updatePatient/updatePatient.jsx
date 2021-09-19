@@ -13,7 +13,8 @@ class UpdatePatient extends React.Component{
         this.state={
             patient: {name: "Matheus da Rosa Pinheiro", cpf: "00000000000", rg: "00000000", sex: "MALE", phone: "51999334183", birthdate: "29/11/1994"},        
             patients: [{name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""}],
-            errors: {}
+            errors: {},
+            activeTab: {tabName: "general"}
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -43,15 +44,19 @@ class UpdatePatient extends React.Component{
         });
     }
 
-    handleChange = ({currentTarget: input}) =>{        
-        const patient = {...this.state.patient};        
-        patient[input.name] = input.value;
-        this.setState({ patient });
+    handleTabChange = ({currentTarget: tab}) =>{
+        let activeTab = this.state.activeTab;
+
+        if (tab.name === "general"){
+            activeTab.tabName = "general";      
+        }else{
+            activeTab.tabName = "anamnesis";
+        }
+
+        this.setState({ activeTab });  
     }
 
     render(){
-        const { patient } = this.state;
-
         return (
             <>  
                 <div className="container-fluid">
@@ -65,10 +70,10 @@ class UpdatePatient extends React.Component{
                                     <br />
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" href="#">Informações gerais</a>
+                                            <a class="nav-link" name="general" aria-current="page" href="#" onClick={this.handleTabChange}>Informações gerais</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Anamnese</a>
+                                            <a class="nav-link" name="anamnesis" href="#" onClick={this.handleTabChange}>Anamnese</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Monitoramento</a>
@@ -76,7 +81,8 @@ class UpdatePatient extends React.Component{
                                     </ul>
                                 </div>                                
                             </div>
-                            <General />
+                            {this.state.activeTab.tabName === "anamnesis" && <Anamnesis />}
+                            {this.state.activeTab.tabName === "general" && <General />}
                         </div>
                     </div>
                 </div>          

@@ -53,35 +53,47 @@ class Anamnesis extends React.Component{
                     <form onSubmit={this.handleSubmit}>
                         <div className="row">
                             <div className="col">
-                                <input type="text" name="name" id="name" onChange={this.handleChange} value={patient.name} className="form-input" placeholder="Nome completo" />
-                                {this.state.errors['name'] && <div className="alert alert-danger">{this.state.errors['name']}</div>}
-                            </div>
-                            <div className="col">
-                                <input type="text" name="rg" id="rg" onChange={this.handleChange} value={patient.rg} className="form-input" placeholder="RG" />
-                                {this.state.errors['rg'] && <div className="alert alert-danger">{this.state.errors['rg']}</div>}
-                            </div>
-                            <div className="col">
-                                <input type="text" name="cpf" id="cpf" onChange={this.handleChange} value={patient.cpf} className="form-input" placeholder="CPF" />
-                                {this.state.errors['cpf'] && <div className="alert alert-danger">{this.state.errors['cpf']}</div>}
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                <input type="text" name="birthdate" id="birthdate" onChange={this.handleChange} value={patient.birthdate} className="form-input" placeholder="Data de nascimento" />
-                                {this.state.errors['birthdate'] && <div className="alert alert-danger">{this.state.errors['birthdate']}</div>}
-                            </div>
-                            <div className="col">
-                                <input type="text" name="phone" id="phone" onChange={this.handleChange} value={patient.phone} className="form-input" placeholder="Telefone de contato" />                                
-                            </div>
-                            <div className="col">
-                                <select name="sex" id="sex" onChange={this.handleChange} className="form-input" value={patient.sex}>
-                                    <option value="">Selecionar</option>
-                                    <option value="MALE">Masculino</option>
-                                    <option value="FEMALE">Feminino</option>
-                                </select>
-                                {this.state.errors['sex'] && <div className="alert alert-danger">{this.state.errors['sex']}</div>}
+                                <div className="form-check">
+                                    <input type="checkbox" name="dorCabeca" id="dorCabeca" onChange={this.handleChange} value={patient.name} className="form-check-input" />
+                                    <label for="name">Dor de cabeça</label>
+                                </div>
+                                <div className="form-check">
+                                    <input type="checkbox" name="tontura" id="tontura" onChange={this.handleChange} value={patient.name} className="form-check-input" />
+                                    <label for="name">Tontura</label>
+                                </div>
+                                <div className="form-check">
+                                    <input type="checkbox" name="enjoo" id="enjoo" onChange={this.handleChange} value={patient.name} className="form-check-input" />
+                                    <label for="name">Enjoo</label>
+                                </div>
+                                <div className="form-check">
+                                    <input type="checkbox" name="fadiga" id="fadiga" onChange={this.handleChange} value={patient.name} className="form-check-input" />
+                                    <label for="name">Fadiga</label>
+                                </div>
+                                <div className="form-check">
+                                    <input type="checkbox" name="tremores" id="tremores" onChange={this.handleChange} value={patient.name} className="form-check-input" />
+                                    <label for="name">Tremores</label>
+                                </div>
+                                <div className="form-check">
+                                    <input type="checkbox" name="zumbidos" id="zumbidos" onChange={this.handleChange} value={patient.name} className="form-check-input" />
+                                    <label for="name">Zumbidos</label>
+                                </div>
+                                <div className="form-check">
+                                    <input type="checkbox" name="outrasDores" id="outrasDores" onChange={this.handleChange} value={patient.name} className="form-check-input" />
+                                    <label for="name">Outras dores</label>
+                                </div>
+                                <div className="form-check">
+                                    <input type="checkbox" name="desorientacao" id="desorientacao" onChange={this.handleChange} value={patient.name} className="form-check-input" />
+                                    <label for="name">Desorientação</label>
+                                </div>
                             </div>    
                         </div>
+                        <br />
+                        <div className="row">
+                            <div className="col">                                                
+                                <textarea className="txtBox" name="observacao" id="observacao" placeholder="Observações"></textarea>
+                            </div>
+                        </div>
+                        <br />
                         <div className="row">
                             <div className="col-md-3">                                                
                                 <input className="form-button" type="submit" value="Atualizar informações" />

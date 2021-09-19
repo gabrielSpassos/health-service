@@ -127,8 +127,11 @@ class RegisterPatient extends React.Component{
                                         <div className="row">
                                             <div className="col-md-3">                                                
                                                 <input className="form-button" type="submit" value="Cadastrar" />
-                                            </div>
-                                        </div>                                                                                                                                                                
+                                            </div>                                                                                        
+                                        </div>    
+                                        <div className="row">
+                                            <div className="alert alert-danger">Nome do paciente não pode ser vazio</div>
+                                        </div>                                                                                                                                                            
                                     </form>
                                 </div>
                             </div>
