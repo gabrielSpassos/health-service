@@ -8,6 +8,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class RegistryRequest {
 
     private String description;
+    private Boolean patientHasHeadache;
+    private Boolean patientHasDizziness;
+    private Boolean patientHasNausea;
+    private Boolean patientHasFatigue;
+    private Boolean patientHasTremors;
+    private Boolean patientFeelsTinnitus;
+    private Boolean patientFeelsPain;
+    private Boolean patientHasOtherSymptom;
 
     @Override
     public String toString() {
