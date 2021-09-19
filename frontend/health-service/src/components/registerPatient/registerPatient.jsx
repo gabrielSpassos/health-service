@@ -10,7 +10,8 @@ class RegisterPatient extends React.Component{
         super();
         this.state={        
             patient: {name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""},
-            errors: {}
+            errors: {},
+            message: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -48,9 +49,7 @@ class RegisterPatient extends React.Component{
 
         let that = this;
         let bodyJson = JSON.stringify(this.state.patient);
-        console.log('body: ', bodyJson);
         const token = 'Bearer ' + Cookies.get('token');
-        console.log('token: ', token);
 
         axios({
             method: 'post',
@@ -59,8 +58,8 @@ class RegisterPatient extends React.Component{
             headers: { "Authorization" : "Bearer" + token } 
         })
         .then(function (response) { 
-            if (response.status === 200){           
-                alert('Paciente cadastrado com sucesso');
+            if (response.status === 200){
+                that.setState({message: "Paciente cadastrado com sucesso."});          
             }                  
         })
         .catch(function (error) {
@@ -89,31 +88,32 @@ class RegisterPatient extends React.Component{
                         <div className="col-8">                    
                             <div className="row d-flex justify-content-start">
                                 {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
+                                {this.state.message && <div className="alert alert-success">{this.state.message}</div>}
                                 <div className="form-box">
                                     <h2>Cadastrar institucionalizado</h2>
                                     <br />
                                     <form onSubmit={this.handleSubmit}>
                                         <div className="row">
                                             <div className="col">
-                                                <input type="text" name="name" id="name" onChange={this.handleChange} value={patient.name} className="form-input" placeholder="Nome completo" />
+                                                <input type="text" name="name" maxLength="45" id="name" onChange={this.handleChange} value={patient.name} className="form-input" placeholder="Nome completo" />
                                                 {this.state.errors['name'] && <div className="alert alert-danger">{this.state.errors['name']}</div>}
                                             </div>
                                             <div className="col">
-                                                <input type="text" name="rg" id="rg" onChange={this.handleChange} value={patient.rg} className="form-input" placeholder="RG" />
+                                                <input type="text" name="rg" id="rg" maxLength="9" onChange={this.handleChange} value={patient.rg} className="form-input" placeholder="RG" />
                                                 {this.state.errors['rg'] && <div className="alert alert-danger">{this.state.errors['rg']}</div>}
                                             </div>
                                             <div className="col">
-                                                <input type="text" name="cpf" id="cpf" onChange={this.handleChange} value={patient.cpf} className="form-input" placeholder="CPF" />
+                                                <input type="text" name="cpf" id="cpf" maxLength="11" onChange={this.handleChange} value={patient.cpf} className="form-input" placeholder="CPF" />
                                                 {this.state.errors['cpf'] && <div className="alert alert-danger">{this.state.errors['cpf']}</div>}
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col">
-                                                <input type="text" name="birthdate" id="birthdate" onChange={this.handleChange} value={patient.birthdate} className="form-input" placeholder="Data de nascimento" />
+                                                <input type="date" name="birthdate" id="birthdate" onChange={this.handleChange} value={patient.birthdate} className="form-input" placeholder="Data de nascimento" />
                                                 {this.state.errors['birthdate'] && <div className="alert alert-danger">{this.state.errors['birthdate']}</div>}
                                             </div>
                                             <div className="col">
-                                                <input type="text" name="phone" id="phone" onChange={this.handleChange} value={patient.phone} className="form-input" placeholder="Telefone de contato" />                                
+                                                <input type="text" name="phone" id="phone" maxLength="11" onChange={this.handleChange} value={patient.phone} className="form-input" placeholder="Telefone de contato" />                                
                                             </div>
                                             <div className="col">
                                                 <select name="sex" id="sex" onChange={this.handleChange} className="form-input" value={patient.sex}>
@@ -128,10 +128,7 @@ class RegisterPatient extends React.Component{
                                             <div className="col-md-3">                                                
                                                 <input className="form-button" type="submit" value="Cadastrar" />
                                             </div>                                                                                        
-                                        </div>    
-                                        <div className="row">
-                                            <div className="alert alert-danger">Nome do paciente não pode ser vazio</div>
-                                        </div>                                                                                                                                                            
+                                        </div>                                                                                                                                                           
                                     </form>
                                 </div>
                             </div>

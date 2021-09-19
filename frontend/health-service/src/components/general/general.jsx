@@ -13,9 +13,7 @@ class General extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit = e =>{
-        e.preventDefault();
-        
+    componentDidMount(){
         let that = this;
         const token = 'Bearer ' + Cookies.get('token');
         console.log('token: ', token);
@@ -27,15 +25,18 @@ class General extends React.Component{
         })
         .then(function (response) { 
             if (response.status === 200){           
-                console.log('bombou', response);   
+                that.setState({patient: response.data});  
             }                  
         })
         .catch(function (error) {
             const errors = {};
-            errors.except = 'Erro ao enviar formulário, contate o administrador do sistema.: ' + error;
+            errors.except = 'Erro ao carregar formulário, contate o administrador do sistema.: ' + error;
             that.setState({errors: errors});
             console.log('Error Debug: ', error);
         });
+    }
+
+    handleSubmit = e =>{
     }
 
     handleChange = ({currentTarget: input}) =>{        
@@ -49,9 +50,11 @@ class General extends React.Component{
 
         return (
             <>  
-                <div className="row d-flex justify-content-start">                                                                
+                <div className="row d-flex justify-content-start">                                                                                  
                     <form onSubmit={this.handleSubmit}>
                         <div className="row">
+                            {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
+                            {this.state.message && <div className="alert alert-success">{this.state.message}</div>}  
                             <div className="col">
                                 <input type="text" name="name" id="name" onChange={this.handleChange} value={patient.name} className="form-input" placeholder="Nome completo" />
                                 {this.state.errors['name'] && <div className="alert alert-danger">{this.state.errors['name']}</div>}

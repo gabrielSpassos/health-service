@@ -3,6 +3,7 @@ import './signInForm.css';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+//import APIServices from '../../Services';
 
 class SignInForm extends React.Component{
     constructor(){
@@ -30,6 +31,16 @@ class SignInForm extends React.Component{
     };
 
     handleLoginUser = e =>{
+        /*e.preventDefault();
+        const redirectCallback = new APIServices().loginUser(this.state.account.username, this.state.account.password);
+        if (!redirectCallback.value){
+            const errors = {};
+            errors.invalidCredentials = 'Usuário e/ou senha inválidos.'
+            this.setState({errors: errors});
+            console.log('Error Debug: ', redirectCallback.value);
+            return;    
+        }
+        this.setState({redirect: redirectCallback.value});*/
         e.preventDefault();
 
         const errors = this.validate();

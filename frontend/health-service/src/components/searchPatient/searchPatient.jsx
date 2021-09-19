@@ -11,7 +11,7 @@ class SearchPatient extends React.Component{
         super();
         this.state={
             patient: {name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""},        
-            patients: [{name: "Matheus da Rosa Pinheiro", cpf: "00000000000", rg: "000000000", sex: "", phone: "", birthdate: "", id: "2"},
+            patients: [{name: "Matheus da Rosa Pinheiro", cpf: "00000000000", rg: "000000000", sex: "", phone: "", birthdate: "", id: "1"},
                        {name: "Senhorzinho Malandro", cpf: "00000000000", rg: "000000000", sex: "", phone: "", birthdate: "", id: "2"},
             ],
             errors: {}
@@ -24,16 +24,20 @@ class SearchPatient extends React.Component{
         
         let that = this;
         const token = 'Bearer ' + Cookies.get('token');
-        console.log('token: ', token);
 
         axios({
             method: 'get',
             url: 'http://localhost:8080/v1/patients',
-            headers: { "Authorization" : "Bearer" + token } 
+            headers: { "Authorization" : "Bearer" + token },
+            params: {
+                name: this.state.patient.name,
+                rg: this.state.patient.rg,
+                cpf: this.state.patient.cpf
+            }
         })
         .then(function (response) { 
             if (response.status === 200){           
-                console.log('bombou', response);   
+                that.setState({patients: response.data.value()});   
             }                  
         })
         .catch(function (error) {
@@ -60,9 +64,9 @@ class SearchPatient extends React.Component{
                     <div className="row">
                         <VerticalNavBar />  
                         <div className="col-8">                    
-                            <div className="row d-flex justify-content-start">
-                                {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
+                            <div className="row d-flex justify-content-start">                                
                                 <div className="form-box">
+                                    {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
                                     <h2>Consultar institucionalizado</h2>
                                     <br />
                                     <form onSubmit={this.handleSubmit}>
@@ -106,7 +110,7 @@ class SearchPatient extends React.Component{
                                                         <th scope="row">{pt.name}</th>
                                                         <td>{pt.rg}</td>
                                                         <td>{pt.cpf}</td>
-                                                        <td><Link to="/updatePatient">Visualizar prontuário</Link></td>
+                                                        <td><Link to={{pathname: "/updatePatient", id: pt.id}}>Visualizar prontuário</Link></td>
                                                     </tr>
                                                 ); 
                                             })}                                           

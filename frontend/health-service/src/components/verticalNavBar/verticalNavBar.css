@@ -10,6 +10,7 @@
     height: 100vh;  
     position: fixed;        
     left: -100%;
+    overflow: hidden;
 }
 
 .nav-menu.active {
