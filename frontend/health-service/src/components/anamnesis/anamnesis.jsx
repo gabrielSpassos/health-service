@@ -7,7 +7,9 @@ class Anamnesis extends React.Component{
     constructor(){
         super();
         this.state={
-            anamnesis: {dorCabeca: true, tontura: true, enjoo: true, fadiga: true, tremores: true, zumbidos: false, outrasDores: false, desorientacao: false, observacao: "abc", id: 0},        
+            anamnesis: {patientHasHeadache: true, patientHasDizziness: true, patientHasNausea: true,
+                        patientHasFatigue: true, patientHasTremors: true, patientFeelsTinnitus: false,
+                        patientFeelsPain: false, patientHasOtherSymptom: false, description: "abc", id: 0},        
             errors: {},
             message: ""
         }
@@ -84,43 +86,43 @@ class Anamnesis extends React.Component{
                             {this.state.message && <div className="alert alert-success">{this.state.message}</div>}
                             <div className="col">
                                 <div className="form-check">
-                                    <input type="checkbox" name="dorCabeca" id="dorCabeca" onChange={this.handleChange} checked={anamnesis.dorCabeca} className="form-check-input" />
-                                    <label for="name">Dor de cabeça</label>
+                                    <input type="checkbox" name="patientHasHeadache" id="patientHasHeadache" onChange={this.handleChange} checked={anamnesis.patientHasHeadache} className="form-check-input" />
+                                    <label for="patientHasHeadache">Dor de cabeça</label>
                                 </div>
                                 <div className="form-check">
-                                    <input type="checkbox" name="tontura" id="tontura" onChange={this.handleChange} checked={anamnesis.tontura} className="form-check-input" />
-                                    <label for="name">Tontura</label>
+                                    <input type="checkbox" name="patientHasDizziness" id="patientHasDizziness" onChange={this.handleChange} checked={anamnesis.patientHasDizziness} className="form-check-input" />
+                                    <label for="patientHasDizziness">Tontura</label>
                                 </div>
                                 <div className="form-check">
-                                    <input type="checkbox" name="enjoo" id="enjoo" onChange={this.handleChange} checked={anamnesis.enjoo} className="form-check-input" />
-                                    <label for="name">Enjoo</label>
+                                    <input type="checkbox" name="patientHasNausea" id="patientHasNausea" onChange={this.handleChange} checked={anamnesis.patientHasNausea} className="form-check-input" />
+                                    <label for="patientHasNausea">Enjoo</label>
                                 </div>
                                 <div className="form-check">
-                                    <input type="checkbox" name="fadiga" id="fadiga" onChange={this.handleChange} checked={anamnesis.fadiga} className="form-check-input" />
-                                    <label for="name">Fadiga</label>
+                                    <input type="checkbox" name="patientHasFatigue" id="patientHasFatigue" onChange={this.handleChange} checked={anamnesis.patientHasFatigue} className="form-check-input" />
+                                    <label for="patientHasFatigue">Fadiga</label>
                                 </div>
                                 <div className="form-check">
-                                    <input type="checkbox" name="tremores" id="tremores" onChange={this.handleChange} checked={anamnesis.tremores} className="form-check-input" />
-                                    <label for="name">Tremores</label>
+                                    <input type="checkbox" name="patientHasTremors" id="patientHasTremors" onChange={this.handleChange} checked={anamnesis.patientHasTremors} className="form-check-input" />
+                                    <label for="patientHasTremors">Tremores</label>
                                 </div>
                                 <div className="form-check">
-                                    <input type="checkbox" name="zumbidos" id="zumbidos" onChange={this.handleChange} checked={anamnesis.zumbidos} className="form-check-input" />
-                                    <label for="name">Zumbidos</label>
+                                    <input type="checkbox" name="patientFeelsTinnitus" id="patientFeelsTinnitus" onChange={this.handleChange} checked={anamnesis.patientFeelsTinnitus} className="form-check-input" />
+                                    <label for="patientFeelsTinnitus">Zumbidos</label>
                                 </div>
                                 <div className="form-check">
-                                    <input type="checkbox" name="outrasDores" id="outrasDores" onChange={this.handleChange} checked={anamnesis.outrasDores} className="form-check-input" />
-                                    <label for="name">Outras dores</label>
+                                    <input type="checkbox" name="patientFeelsPain" id="patientFeelsPain" onChange={this.handleChange} checked={anamnesis.patientFeelsPain} className="form-check-input" />
+                                    <label for="patientFeelsPain">Outras dores</label>
                                 </div>
                                 <div className="form-check">
-                                    <input type="checkbox" name="desorientacao" id="desorientacao" onChange={this.handleChange} checked={anamnesis.desorientacao} className="form-check-input" />
-                                    <label for="name">Desorientação</label>
+                                    <input type="checkbox" name="patientHasOtherSymptom" id="patientHasOtherSymptom" onChange={this.handleChange} checked={anamnesis.patientHasOtherSymptom} className="form-check-input" />
+                                    <label for="patientHasOtherSymptom">Desorientação</label>
                                 </div>
                             </div>    
                         </div>
                         <br />
                         <div className="row">
                             <div className="col">                                                
-                                <textarea className="txtBox" name="observacao" id="observacao" value={anamnesis.observacao} placeholder="Observações"></textarea>
+                                <textarea className="txtBox" name="description" id="description" value={anamnesis.description} placeholder="Observações"></textarea>
                             </div>
                         </div>
                         <div className="row">
