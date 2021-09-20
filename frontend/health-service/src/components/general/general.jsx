@@ -4,8 +4,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 class General extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             patient: {name: "Matheus da Rosa Pinheiro", cpf: "00000000000", rg: "00000000", sex: "MALE", phone: "51999334183", birthdate: "29/11/1994"},        
             errors: {}
@@ -16,15 +16,13 @@ class General extends React.Component{
     componentDidMount(){
         let that = this;
         const token = 'Bearer ' + Cookies.get('token');
-        console.log('token: ', token);
-
         axios({
             method: 'get',
-            url: 'http://localhost:8080/v1/patients',
-            headers: { "Authorization" : "Bearer" + token } 
+            url: 'http://localhost:8080/v1/patients/'+this.props.id,
+            headers: { "Authorization" : token, "content-type": "application/json" }
         })
         .then(function (response) { 
-            if (response.status === 200){           
+            if (response.status === 200){        
                 that.setState({patient: response.data});  
             }                  
         })
@@ -70,7 +68,7 @@ class General extends React.Component{
                         </div>
                         <div className="row">
                             <div className="col">
-                                <input type="text" name="birthdate" id="birthdate" onChange={this.handleChange} value={patient.birthdate} className="form-input" placeholder="Data de nascimento" />
+                                <input type="date" name="birthdate" id="birthdate" onChange={this.handleChange} value={patient.birthdate} className="form-input" placeholder="Data de nascimento" />
                                 {this.state.errors['birthdate'] && <div className="alert alert-danger">{this.state.errors['birthdate']}</div>}
                             </div>
                             <div className="col">

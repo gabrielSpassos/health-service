@@ -49,13 +49,14 @@ class RegisterPatient extends React.Component{
 
         let that = this;
         let bodyJson = JSON.stringify(this.state.patient);
+        console.log('body do json: ', bodyJson);
         const token = 'Bearer ' + Cookies.get('token');
 
         axios({
             method: 'post',
             url: 'http://localhost:8080/v1/patients',
             data: bodyJson,
-            headers: { "Authorization" : "Bearer" + token } 
+            headers: { "Authorization" : token, "content-type": "application/json" } 
         })
         .then(function (response) { 
             if (response.status === 200){
@@ -88,7 +89,7 @@ class RegisterPatient extends React.Component{
                         <div className="col-8">                    
                             <div className="row d-flex justify-content-start">
                                 {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
-                                {this.state.message && <div className="alert alert-success">{this.state.message}</div>}
+                                {this.state.message !== '' && <div className="alert alert-success">{this.state.message}</div>}
                                 <div className="form-box">
                                     <h2>Cadastrar institucionalizado</h2>
                                     <br />

@@ -10,10 +10,8 @@ class SearchPatient extends React.Component{
     constructor(){
         super();
         this.state={
-            patient: {name: "", cpf: "", rg: "", sex: "", phone: "", birthdate: ""},        
-            patients: [{name: "Matheus da Rosa Pinheiro", cpf: "00000000000", rg: "000000000", sex: "", phone: "", birthdate: "", id: "1"},
-                       {name: "Senhorzinho Malandro", cpf: "00000000000", rg: "000000000", sex: "", phone: "", birthdate: "", id: "2"},
-            ],
+            patient: {name: "", cpf: "", rg: ""},        
+            patients: null,
             errors: {}
         }
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,16 +26,11 @@ class SearchPatient extends React.Component{
         axios({
             method: 'get',
             url: 'http://localhost:8080/v1/patients',
-            headers: { "Authorization" : "Bearer" + token },
-            params: {
-                name: this.state.patient.name,
-                rg: this.state.patient.rg,
-                cpf: this.state.patient.cpf
-            }
+            headers: { "Authorization" : token, "content-type": "application/json" }
         })
         .then(function (response) { 
-            if (response.status === 200){           
-                that.setState({patients: response.data.value()});   
+            if (response.status === 200){        
+                that.setState({patients: response.data['content']});
             }                  
         })
         .catch(function (error) {
@@ -94,7 +87,7 @@ class SearchPatient extends React.Component{
                             </div>
                             {this.state.patients &&
                                 <div className="row d-flex justify-content-start">
-                                    <table class="table">
+                                    <table className="table">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Nome</th>

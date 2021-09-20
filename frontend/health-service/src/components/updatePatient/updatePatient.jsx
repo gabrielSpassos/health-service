@@ -19,40 +19,16 @@ class UpdatePatient extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
-        let that = this;
-        const token = 'Bearer ' + Cookies.get('token');
-        axios({
-            method: 'get',
-            url: 'http://localhost:8080/v1/patients',
-            headers: { "Authorization" : "Bearer" + token },
-            params: {
-                id: this.props.location.id
-            }
-        })
-        .then(function (response) { 
-            if (response.status === 200){           
-                that.setState({patient: response.data.value()});  
-            }                  
-        })
-        .catch(function (error) {
-            const errors = {};
-            errors.except = 'Erro ao enviar formulário, contate o administrador do sistema.: ' + error;
-            that.setState({errors: errors});
-            console.log('Error Debug: ', error);
-        });
-    }
-
     handleSubmit = e =>{
         e.preventDefault();
         
-        let that = this;
+        /*let that = this;
         const token = 'Bearer ' + Cookies.get('token');
 
         axios({
             method: 'get',
             url: 'http://localhost:8080/v1/patients',
-            headers: { "Authorization" : "Bearer" + token } 
+            headers: { "Authorization" : token } 
         })
         .then(function (response) { 
             if (response.status === 200){           
@@ -64,7 +40,7 @@ class UpdatePatient extends React.Component{
             errors.except = 'Erro ao enviar formulário, contate o administrador do sistema.: ' + error;
             that.setState({errors: errors});
             console.log('Error Debug: ', error);
-        });
+        });*/
     }
 
     handleTabChange = ({currentTarget: tab}) =>{
@@ -91,22 +67,22 @@ class UpdatePatient extends React.Component{
                                 <div className="form-box">
                                     <h2>Prontuário eletrônico</h2>
                                     <br />
-                                    <ul class="nav nav-tabs">
-                                        <li class="nav-item">
+                                    <ul className="nav nav-tabs">
+                                        <li className="nav-item">
                                             <a className={this.state.activeTab.tabName === "general" ? 'nav-link active' : 'nav-link'} name="general" aria-current="page" onClick={this.handleTabChange}>Informações gerais</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li className="nav-item">
                                             <a className={this.state.activeTab.tabName === "anamnesis" ? 'nav-link active' : 'nav-link'} name="anamnesis" onClick={this.handleTabChange}>Anamnese</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link">Monitoramento</a>
+                                        <li className="nav-item">
+                                            <a className="nav-link">Monitoramento</a>
                                         </li>
                                     </ul>
                                 </div>                                
                             </div>
                             <div className="row d-flex justify-content-start">
-                                {this.state.activeTab.tabName === "anamnesis" && <Anamnesis />}
-                                {this.state.activeTab.tabName === "general" && <General />}
+                                {this.state.activeTab.tabName === "anamnesis" && <Anamnesis id={this.props.location.id} />}
+                                {this.state.activeTab.tabName === "general" && <General id={this.props.location.id} />}
                             </div>
                         </div>
                     </div>

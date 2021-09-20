@@ -7,11 +7,12 @@ class Anamnesis extends React.Component{
     constructor(){
         super();
         this.state={
-            anamnesis: {patientHasHeadache: true, patientHasDizziness: true, patientHasNausea: true,
-                        patientHasFatigue: true, patientHasTremors: true, patientFeelsTinnitus: false,
-                        patientFeelsPain: false, patientHasOtherSymptom: false, description: "abc", id: 0},        
+            anamnesis: {patientHasHeadache: false, patientHasDizziness: false, patientHasNausea: false,
+                        patientHasFatigue: false, patientHasTremors: false, patientFeelsTinnitus: false,
+                        patientFeelsPain: false, patientHasOtherSymptom: false, description: "", id: 0},        
             errors: {},
-            message: ""
+            message: "",
+            medicalRecordId: 0
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -22,15 +23,14 @@ class Anamnesis extends React.Component{
 
         axios({
             method: 'get',
-            url: 'http://localhost:8080/v1/patients',
-            headers: { "Authorization" : "Bearer" + token },
-            params: {
-                patientId: "1"
-            } 
+            url: 'http://localhost:8080/v1/patients/'+this.props.id+'/medical-records',
+            headers: { "Authorization" : token }
         })
         .then(function (response) { 
             if (response.status === 200){        
-                that.setState({medicalRecordId: response.data['registries'][0]})  
+                console.log('all medical records: ', response.data);
+                that.setState({anamnesis: response.data['registries']});
+                that.setState({medicalRecordId: response.data['id']}); 
             }                         
         })
         .catch(function (error) {
@@ -43,36 +43,58 @@ class Anamnesis extends React.Component{
 
     handleSubmit = e =>{
         e.preventDefault();
-        
+
         let that = this;
         const token = 'Bearer ' + Cookies.get('token');
         let bodyJson = JSON.stringify(this.state.anamnesis);
-        axios({
-            method: 'put',
-            url: 'http://localhost:8080/v1/patients',
-            headers: { "Authorization" : "Bearer" + token },
-            params: {
-                id: this.state.anamnesis.id
-            },
-            body: bodyJson  
-        })
-        .then(function (response) { 
-            if (response.status === 200){           
-                that.setState({message: "Formulário de anamnese atualizado com sucesso."}); 
-            }                  
-        })
-        .catch(function (error) {
-            const errors = {};
-            errors.except = 'Erro ao enviar formulário, contate o administrador do sistema.: ' + error;
-            that.setState({errors: errors});
-            console.log('Error Debug: ', error);
-        });
+        console.log('body json: ', bodyJson);
+        console.log('id do form: ', this.state.anamnesis.id);
+        console.log('medicalrecordid para mandar: ', this.state.medicalRecordId);
+        if (this.state.anamnesis.id == null){
+            console.log('criou');
+            axios({
+                method: 'post',
+                url: 'http://localhost:8080/v1/medical-records/'+this.state.medicalRecordId+'/registries',
+                headers: { "Authorization" : token, "content-type": "application/json" },
+                body: bodyJson  
+            })
+            .then(function (response) { 
+                if (response.status === 200){           
+                    that.setState({message: "Formulário de anamnese atualizado com sucesso."}); 
+                }                  
+            })
+            .catch(function (error) {
+                const errors = {};
+                errors.except = 'Erro ao enviar formulário, contate o administrador do sistema.: ' + error;
+                that.setState({errors: errors});
+                console.log('Error Debug: ', error);
+            });
+        }else{
+            console.log('atualizou');
+            axios({
+                method: 'put',
+                url: 'http://localhost:8080/v1/registries/'+this.state.anamnesis.id,
+                headers: { "Authorization" : token,"content-type": "application/json" },
+                body: bodyJson  
+            })
+            .then(function (response) { 
+                if (response.status === 200){           
+                    that.setState({message: "Formulário de anamnese atualizado com sucesso."}); 
+                }                  
+            })
+            .catch(function (error) {
+                const errors = {};
+                errors.except = 'Erro ao enviar formulário, contate o administrador do sistema.: ' + error;
+                that.setState({errors: errors});
+                console.log('Error Debug: ', error);
+            });
+        }
     }
 
     handleChange = ({currentTarget: input}) =>{        
-        const patient = {...this.state.patient};        
-        patient[input.name] = input.value;
-        this.setState({ patient });
+        const anamnesis = {...this.state.anamnesis};        
+        anamnesis[input.name] = input.value;
+        this.setState({ anamnesis });
     }
 
     render(){
@@ -122,7 +144,7 @@ class Anamnesis extends React.Component{
                         <br />
                         <div className="row">
                             <div className="col">                                                
-                                <textarea className="txtBox" name="description" id="description" value={anamnesis.description} placeholder="Observações"></textarea>
+                                <textarea className="txtBox" name="description" id="description" value={anamnesis.description} onChange={this.handleChange} placeholder="Observações"></textarea>
                             </div>
                         </div>
                         <div className="row">
