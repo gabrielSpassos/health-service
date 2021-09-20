@@ -31,6 +31,20 @@ class SearchPatient extends React.Component{
         .then(function (response) { 
             if (response.status === 200){        
                 that.setState({patients: response.data['content']});
+
+                let filtered = [...that.state.patients];
+
+                if(that.state.patient.name !== ''){
+                    filtered = filtered.filter(p => p.name === that.state.patient.name);
+                }
+                if(that.state.patient.cpf !== ''){
+                    filtered = filtered.filter(p => p.cpf === that.state.patient.cpf);
+                }
+                if(that.state.patient.rg !== ''){
+                    filtered = filtered.filter(p => p.rg === that.state.patient.rg);
+                }
+
+                that.setState({patients: filtered});
             }                  
         })
         .catch(function (error) {
@@ -100,10 +114,10 @@ class SearchPatient extends React.Component{
                                             {this.state.patients.map(pt => {
                                                 return(
                                                     <tr>
-                                                        <th scope="row">{pt.name}</th>
-                                                        <td>{pt.rg}</td>
-                                                        <td>{pt.cpf}</td>
-                                                        <td><Link to={{pathname: "/updatePatient", id: pt.id}}>Visualizar prontuário</Link></td>
+                                                        <th id={'name'+pt.id} scope="row">{pt.name}</th>
+                                                        <td id={'rg'+pt.id}>{pt.rg}</td>
+                                                        <td id={'cpf'+pt.id}>{pt.cpf}</td>
+                                                        <td id={'id'+pt.id}><Link to={{pathname: "/updatePatient", id: pt.id}}>Visualizar prontuário</Link></td>
                                                     </tr>
                                                 ); 
                                             })}                                           
