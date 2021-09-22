@@ -1,12 +1,19 @@
 package com.poc.service;
 
 import com.poc.builder.dto.RegistryDTOBuilder;
+import com.poc.builder.entity.AuditRegistryUserEntityBuilder;
 import com.poc.builder.entity.RegistryEntityBuilder;
+import com.poc.builder.entity.UserEntityBuilder;
+import com.poc.constant.AuditOperationTypeEnum;
 import com.poc.controller.request.RegistryRequest;
 import com.poc.dto.RegistryDTO;
+import com.poc.dto.UserDTO;
+import com.poc.entity.AuditRegistryUserEntity;
 import com.poc.entity.MedicalRecordEntity;
 import com.poc.entity.RegistryEntity;
+import com.poc.entity.UserEntity;
 import com.poc.exception.RegistryNotFoundException;
+import com.poc.repository.AuditRegistryUserRepository;
 import com.poc.repository.RegistryRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +25,9 @@ import org.springframework.stereotype.Service;
 public class RegistryService {
 
     private final MedicalRecordService medicalRecordService;
+    private final UserService userService;
     private final RegistryRepository registryRepository;
+    private final AuditRegistryUserRepository auditRegistryUserRepository;
 
     public RegistryDTO createRegistry(Long medicalRecordId, RegistryRequest registryRequest) {
         MedicalRecordEntity medicalRecordEntity = medicalRecordService.getMedicalRecordById(medicalRecordId);
@@ -26,6 +35,9 @@ public class RegistryService {
         RegistryEntity registryEntity = RegistryEntityBuilder.build(registryRequest, medicalRecordEntity);
         RegistryEntity savedRegistry = registryRepository.save(registryEntity);
         log.info("Criado registro {}", savedRegistry);
+
+        createAudit(savedRegistry, AuditOperationTypeEnum.CREATE);
+
         return RegistryDTOBuilder.build(savedRegistry);
     }
 
@@ -33,7 +45,21 @@ public class RegistryService {
         return registryRepository.findById(id)
                 .map(registryEntity -> RegistryEntityBuilder.build(registryEntity, registryRequest))
                 .map(registryRepository::save)
+                .map(registryEntity -> {
+                    createAudit(registryEntity, AuditOperationTypeEnum.UPDATE);
+                    return registryEntity;
+                })
                 .map(RegistryDTOBuilder::build)
                 .orElseThrow(RegistryNotFoundException::new);
+    }
+
+    private void createAudit(RegistryEntity registryEntity, AuditOperationTypeEnum auditOperationType) {
+        UserDTO userDTO = userService.getUserFromToken();
+        UserEntity userEntity = UserEntityBuilder.build(userDTO);
+
+        AuditRegistryUserEntity auditRegistryUserEntity = AuditRegistryUserEntityBuilder
+                .build(registryEntity, userEntity, auditOperationType);
+        AuditRegistryUserEntity savedAudit = auditRegistryUserRepository.save(auditRegistryUserEntity);
+        log.info("Criado auditoria {}", savedAudit);
     }
 }
