@@ -10,8 +10,8 @@ public class AuditRegistryUserEntityBuilder {
     public static AuditRegistryUserEntity build(RegistryEntity registryEntity, UserEntity userEntity,
                                                 AuditOperationTypeEnum auditOperationType) {
         return AuditRegistryUserEntity.builder()
-                .registry(registryEntity)
-                .user(userEntity)
+                .registryId(registryEntity.getId())
+                .userId(userEntity.getId())
                 .auditOperationType(auditOperationType.name())
                 .build();
     }

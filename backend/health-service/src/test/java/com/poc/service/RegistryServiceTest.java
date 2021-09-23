@@ -28,7 +28,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class RegistryServiceTest {
@@ -72,6 +74,8 @@ class RegistryServiceTest {
         RegistryEntity value = argumentCaptor.getValue();
         assertNull(value.getId());
         assertEquals("unit test", value.getDescription());
+
+        verify(auditRegistryUserRepository).save(any());
     }
 
     @Test
@@ -93,6 +97,8 @@ class RegistryServiceTest {
         RegistryEntity value = argumentCaptor.getValue();
         assertEquals(1L, value.getId());
         assertEquals("unit test", value.getDescription());
+
+        verify(auditRegistryUserRepository).save(any());
     }
 
     @Test
