@@ -75,6 +75,12 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public UserDTO findUserById(Long id) {
+        return userRepository.findById(id)
+                .map(UserDTOBuilder::build)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
     public UserDTO getUserFromToken() {
         UserEntity user = (UserEntity) SecurityContextHolder.getContext()
                 .getAuthentication()

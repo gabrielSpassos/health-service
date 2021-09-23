@@ -54,6 +54,14 @@ public class UserController implements BaseVersion {
     }
 
     @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
+    @GetMapping(value = "/users/{id}")
+    public ResponseEntity<UserDTO> getUserById(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+                                               @PathVariable("id") Long id) {
+        UserDTO user = userService.findUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @Secured(value = {RoleConstant.ADMIN, RoleConstant.USER})
     @GetMapping(value = "/user-auth")
     public ResponseEntity<UserDTO> getUserAuth(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
         UserDTO user = userService.getUserFromToken();
