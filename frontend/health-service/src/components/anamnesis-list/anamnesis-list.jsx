@@ -8,9 +8,9 @@ class Anamnesis extends React.Component{
     constructor(){
         super();
         this.state={
-            anamnesis: {patientHasHeadache: false, patientHasDizziness: false, patientHasNausea: false,
+            anamnesis: [{patientHasHeadache: false, patientHasDizziness: false, patientHasNausea: false,
                         patientHasFatigue: false, patientHasTremors: false, patientFeelsTinnitus: false,
-                        patientFeelsPain: false, patientHasOtherSymptom: false, description: "", id: 0},        
+                        patientFeelsPain: false, patientHasOtherSymptom: false, description: "", id: 0}],        
             errors: {},
             message: "",
             medicalRecordId: 0

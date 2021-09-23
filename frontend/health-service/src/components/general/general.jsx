@@ -2,6 +2,7 @@ import React from 'react';
 import './general.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 class General extends React.Component{
     constructor(props){
@@ -46,6 +47,10 @@ class General extends React.Component{
     render(){
         const { patient } = this.state;
 
+        if (this.props.id == null){
+            return <Redirect to="/home" />;
+        }
+
         return (
             <>  
                 <div className="row d-flex justify-content-start">                                                                                  
@@ -82,12 +87,7 @@ class General extends React.Component{
                                 </select>
                                 {this.state.errors['sex'] && <div className="alert alert-danger">{this.state.errors['sex']}</div>}
                             </div>    
-                        </div>
-                        <div className="row">
-                            <div className="col-md-3">                                                
-                                <input className="form-button" type="submit" value="Atualizar informações" />
-                            </div>
-                        </div>                                                                                                                                                                
+                        </div>                                                                                                                                                              
                     </form>    
                 </div>                                    
             </>
