@@ -49,7 +49,6 @@ class RegisterPatient extends React.Component{
 
         let that = this;
         let bodyJson = JSON.stringify(this.state.patient);
-        console.log('body do json: ', bodyJson);
         const token = 'Bearer ' + Cookies.get('token');
 
         axios({

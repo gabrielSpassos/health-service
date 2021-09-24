@@ -5,33 +5,34 @@ import Cookies from 'js-cookie';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 class Anamnesis extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             anamnesis: {patientHasHeadache: false, patientHasDizziness: false, patientHasNausea: false,
                         patientHasFatigue: false, patientHasTremors: false, patientFeelsTinnitus: false,
                         patientFeelsPain: false, patientHasOtherSymptom: false, description: "", id: 0},        
             errors: {},
             message: "",
-            medicalRecordId: 0
+            medicalRecordId: 0,
+            redirect: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount(){
+        if (this.props.tipo === 'create') {return}
+
         let that = this;
         const token = 'Bearer ' + Cookies.get('token');
 
         axios({
             method: 'get',
-            url: 'http://localhost:8080/v1/patients/'+this.props.id+'/medical-records',
+            url: 'http://localhost:8080/v1/registries/'+this.props.id,
             headers: { "Authorization" : token }
         })
         .then(function (response) { 
             if (response.status === 200){        
-                console.log('all medical records: ', response.data);
-                that.setState({anamnesis: response.data['registries']});
-                that.setState({medicalRecordId: response.data['id']}); 
+                that.setState({anamnesis: response.data});
             }                         
         })
         .catch(function (error) {
@@ -46,21 +47,20 @@ class Anamnesis extends React.Component{
         e.preventDefault();
 
         let that = this;
-        const token = 'Bearer ' + Cookies.get('token');
-        console.log('token: ', token);
+        const token = 'Bearer ' + Cookies.get('token');        
         let bodyJson = JSON.stringify(this.state.anamnesis);
-        console.log('body json: ', bodyJson);
-        if (this.state.anamnesis.id == null){
+        if (this.props.tipo === 'create'){
             console.log('criou');
             axios({
                 method: 'post',
-                url: 'http://localhost:8080/v1/medical-records/'+this.state.medicalRecordId+'/registries',
+                url: 'http://localhost:8080/v1/medical-records/'+this.props.medicalRecordId+'/registries',
                 headers: { "Authorization" : token, "Content-Type": "application/json" },
                 data: bodyJson  
             })
             .then(function (response) { 
                 if (response.status === 200){           
-                    that.setState({message: "Formulário de anamnese atualizado com sucesso."}); 
+                    that.setState({message: "Formulário de anamnese atualizado com sucesso."});
+                    that.setState({redirect: true}); 
                 }                  
             })
             .catch(function (error) {
@@ -70,7 +70,6 @@ class Anamnesis extends React.Component{
                 console.log('Error Debug: ', error);
             });
         }else{
-            console.log('atualizou');
             axios({
                 method: 'put',
                 url: 'http://localhost:8080/v1/registries/'+this.state.anamnesis.id,
@@ -79,7 +78,8 @@ class Anamnesis extends React.Component{
             })
             .then(function (response) { 
                 if (response.status === 200){           
-                    that.setState({message: "Formulário de anamnese atualizado com sucesso."}); 
+                    that.setState({message: "Formulário de anamnese atualizado com sucesso."});
+                    that.setState({redirect: true});  
                 }                  
             })
             .catch(function (error) {
@@ -105,13 +105,11 @@ class Anamnesis extends React.Component{
     render(){
         const { anamnesis } = this.state;
 
-        if (this.props.id == null){
-            return <Redirect to="/home" />;
-        }
-
         return (
             <>  
-                <div className="row d-flex justify-content-start">                                                                
+                <div className="row d-flex justify-content-start">
+                    <h2>Formulário de anamnese</h2>
+                    <br />                                                                
                     <form onSubmit={this.handleSubmit}>
                         <div className="row">
                             {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
@@ -159,7 +157,7 @@ class Anamnesis extends React.Component{
                         </div>
                         <div className="row">
                             <div className="col-md-3">                                                
-                                <input className="form-button" type="submit" value="Atualizar informações" />
+                                <input className="form-button" type="submit" value="Salvar" />
                             </div>
                         </div>                                                                                                                                                                
                     </form>    

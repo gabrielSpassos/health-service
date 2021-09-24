@@ -6,6 +6,7 @@ import NavBar from './../navBar/navBar';
 import VerticalNavBar from './../verticalNavBar/verticalNavBar';
 import General from './../general/general';
 import Anamnesis from '../anamnesis/anamnesis';
+import AnamnesisList from '../anamnesis-list/anamnesis-list';
 
 class UpdatePatient extends React.Component{
     constructor(props){
@@ -81,7 +82,7 @@ class UpdatePatient extends React.Component{
                                 </div>                                
                             </div>
                             <div className="row d-flex justify-content-start">
-                                {this.state.activeTab.tabName === "anamnesis" && <Anamnesis id={this.props.location.id} />}
+                                {this.state.activeTab.tabName === "anamnesis" && <AnamnesisList id={this.props.location.id} />}
                                 {this.state.activeTab.tabName === "general" && <General id={this.props.location.id} />}
                             </div>
                         </div>
