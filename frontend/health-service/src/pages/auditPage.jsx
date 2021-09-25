@@ -3,8 +3,9 @@ import NavBar from '../components/navBar/navBar';
 import VerticalNavBar from '../components/verticalNavBar/verticalNavBar';
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import AuditList from '../components/audit-list/audit-list';
 
-class HomePage extends React.Component {    
+class AuditPage extends React.Component {    
     constructor(){
       super();
       this.state={        
@@ -30,7 +31,7 @@ class HomePage extends React.Component {
             <NavBar buttonType={'home'}/>
             <div className="row">
               <VerticalNavBar />
-                         
+              <AuditList />           
             </div>
           </div>
         </>     
@@ -38,4 +39,4 @@ class HomePage extends React.Component {
     }
   }
 
-export default HomePage;
+export default AuditPage;

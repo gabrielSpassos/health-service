@@ -2,6 +2,7 @@ import React from 'react';
 import './verticalNavBar.css';
 import {Link} from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
+import Cookies from 'js-cookie';
 
 class NavBar extends React.Component {
     state = {
@@ -26,6 +27,10 @@ class NavBar extends React.Component {
         }                    
     }
 
+    clearToken(){
+        Cookies.remove('token');
+    }
+
     render(){
         return (        
             <> 
@@ -40,6 +45,9 @@ class NavBar extends React.Component {
                                     </Link>
                                     <Link to="/searchPatient"> 
                                         <li>Consultar paciente</li>
+                                    </Link>                                    
+                                    <Link to="/" onClick={this.clearToken}> 
+                                        <li>Sair</li>
                                     </Link> 
                                 </ul>                                            
                             </li>                                                                                               

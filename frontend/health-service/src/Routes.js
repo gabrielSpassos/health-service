@@ -6,10 +6,12 @@ import SearchPatient from './components/searchPatient/searchPatient';
 import RegisterPatient from './components/registerPatient/registerPatient';
 import UpdatePatient from './components/updatePatient/updatePatient';
 import UpdateAnamnesisPage from './pages/updateAnamnesisPage';
+import AuditPage from './pages/auditPage';
 
 function Routes() {
     return ( 
-        <Switch>            
+        <Switch>
+            <Route path="/audit" component={AuditPage} />           
             <Route path="/anamnesis" component={UpdateAnamnesisPage} />
             <Route path="/updatePatient" component={UpdatePatient} />            
             <Route path="/searchPatient" component={SearchPatient}/>
