@@ -57,9 +57,9 @@ class RegisterPatient extends React.Component{
             data: bodyJson,
             headers: { "Authorization" : token, "content-type": "application/json" } 
         })
-        .then(function (response) { 
-            if (response.status === 200){
-                that.setState({message: "Paciente cadastrado com sucesso."});          
+        .then(function (response) {
+            if (response.status === 201){
+                that.setState({message: "Paciente cadastrado com sucesso."});                    
             }                  
         })
         .catch(function (error) {
@@ -87,9 +87,9 @@ class RegisterPatient extends React.Component{
                         <VerticalNavBar />                           
                         <div className="col-8">                    
                             <div className="row d-flex justify-content-start">
-                                {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
-                                {this.state.message !== '' && <div className="alert alert-success">{this.state.message}</div>}
                                 <div className="form-box">
+                                    {this.state.errors['except'] && <div className="alert alert-danger">{this.state.errors['except']}</div>}
+                                    {this.state.message !== '' && <div className="alert alert-success">{this.state.message}</div>}
                                     <h2>Cadastrar institucionalizado</h2>
                                     <br />
                                     <form onSubmit={this.handleSubmit}>

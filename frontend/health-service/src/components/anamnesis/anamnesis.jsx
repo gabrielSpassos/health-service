@@ -58,8 +58,8 @@ class Anamnesis extends React.Component{
                 data: bodyJson  
             })
             .then(function (response) { 
-                if (response.status === 200){           
-                    that.setState({message: "Formulário de anamnese atualizado com sucesso."});
+                if (response.status === 201){           
+                    that.setState({message: "Formulário de anamnese criado com sucesso."});
                     that.setState({redirect: true}); 
                 }                  
             })
@@ -76,9 +76,9 @@ class Anamnesis extends React.Component{
                 headers: { "Authorization" : token,"content-type": "application/json" },
                 data: bodyJson  
             })
-            .then(function (response) { 
+            .then(function (response) {
                 if (response.status === 200){           
-                    that.setState({message: "Formulário de anamnese atualizado com sucesso."});
+                    that.setState({message: "Formulário de anamnese atualizado com sucesso."});                    
                     that.setState({redirect: true});  
                 }                  
             })
@@ -94,7 +94,8 @@ class Anamnesis extends React.Component{
     handleChange = ({currentTarget: input}) =>{        
         const anamnesis = {...this.state.anamnesis};
         if (input.name !== 'description'){
-            anamnesis[input.name] = input.value === "on";    
+            let inputChecked = input['checked'];          
+            anamnesis[input.name] = inputChecked;                 
         }else{
             anamnesis[input.name] = input.value;
         }        

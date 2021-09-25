@@ -9,7 +9,7 @@ import UpdateAnamnesisPage from './pages/updateAnamnesisPage';
 
 function Routes() {
     return ( 
-        <Switch>
+        <Switch>            
             <Route path="/anamnesis" component={UpdateAnamnesisPage} />
             <Route path="/updatePatient" component={UpdatePatient} />            
             <Route path="/searchPatient" component={SearchPatient}/>
