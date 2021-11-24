@@ -25,8 +25,8 @@ public class RabbitConfig {
     private String exchangeRoutingKey;
 
     @Primary
-    @Bean(name = "coreConnectionFactory")
-    public ConnectionFactory coreConnectionFactory(
+    @Bean(name = "connectionFactory")
+    public ConnectionFactory connectionFactory(
             @Value("${spring.rabbitmq.host}") String host,
             @Value("${spring.rabbitmq.port}") int port,
             @Value("${spring.rabbitmq.username}") String username,
@@ -42,18 +42,17 @@ public class RabbitConfig {
     }
 
     @Primary
-    @Bean(name = "coreContainerFactory")
-    public SimpleRabbitListenerContainerFactory coreContainerFactory(
-            @Qualifier("coreConnectionFactory") ConnectionFactory connectionFactory) {
+    @Bean(name = "containerFactory")
+    public SimpleRabbitListenerContainerFactory containerFactory(
+            @Qualifier("connectionFactory") ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         return factory;
     }
 
     @Primary
-    @Bean(name = "coreRabbitAdmin")
-    public RabbitAdmin coreRabbitAdmin(
-            @Qualifier("coreConnectionFactory") ConnectionFactory connectionFactory) {
+    @Bean(name = "rabbitAdmin")
+    public RabbitAdmin rabbitAdmin(@Qualifier("connectionFactory") ConnectionFactory connectionFactory) {
         RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
         rabbitAdmin.setAutoStartup(true);
         rabbitAdmin.declareExchange(healthRegistryExchange());

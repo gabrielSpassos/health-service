@@ -46,4 +46,9 @@ rabbitmq:
   enabled: true
   exchange:
     name: 'health.registry.exchange'
+    type: 'topic'
     routing-key: '#'
+  registry:
+    enabled: true
+    queue:
+      name: 'health.registry.queue'

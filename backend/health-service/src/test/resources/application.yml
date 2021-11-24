@@ -37,4 +37,9 @@ rabbitmq:
   enabled: false
   exchange:
     name: 'test.exchange'
+    type: 'topic'
     routing-key: '#'
+  registry:
+    enabled: false
+    queue:
+      name: 'test.queue'
