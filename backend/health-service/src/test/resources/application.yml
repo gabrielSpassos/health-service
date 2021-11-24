@@ -1,6 +1,12 @@
 spring:
   application:
     name: health-service
+  rabbitmq:
+    host: 'any-url'
+    port: 5672
+    virtual-host: '/'
+    username: 'test'
+    password: 'test'
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
     username: sa
@@ -26,3 +32,9 @@ security:
   oauth2:
     resource:
       id: bcrypt
+
+rabbitmq:
+  enabled: false
+  exchange:
+    name: 'test.exchange'
+    routing-key: '#'

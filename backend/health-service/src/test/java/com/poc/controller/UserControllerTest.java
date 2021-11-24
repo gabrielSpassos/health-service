@@ -1,12 +1,14 @@
 package com.poc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poc.config.RabbitConfig;
 import com.poc.controller.dto.AccessTokenDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,8 +29,12 @@ public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private RabbitConfig rabbitConfig;
 
     private static final String BASIC_HEADER = "Basic Y2xpZW50OjEyMw==";
     private static final String ADMIN_USERNAME = "admin@gmail.com";

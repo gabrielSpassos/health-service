@@ -1,6 +1,12 @@
 spring:
   application:
     name: health-service
+  rabbitmq:
+    host: 'localhost'
+    port: 5672
+    virtual-host: '/'
+    username: 'admin'
+    password: 'admin'
   datasource:
     url: jdbc:mysql://${MYSQL_URL:localhost}:3306/health-db?allowPublicKeyRetrieval=true&autoReconnect=true&autoReconnectForPools=true&socketTimeout=5000&connectTimeout=1000&useSSL=false
     username: admin
@@ -35,3 +41,9 @@ security:
   oauth2:
     resource:
       id: bcrypt
+
+rabbitmq:
+  enabled: true
+  exchange:
+    name: 'health.registry.exchange'
+    routing-key: '#'

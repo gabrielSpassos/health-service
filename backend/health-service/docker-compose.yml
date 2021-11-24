@@ -21,10 +21,27 @@ services:
       health-net:
         ipv4_address: 10.5.0.2
 
+  mq:
+    container_name: health-rabbitmq
+    image: rabbitmq:3.5.6-management
+    expose:
+        - "5672"
+        - "15672"
+    ports:
+        - 5672:5672
+        - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
+    networks:
+      health-net:
+        ipv4_address: 10.5.0.3
+
   health-service-backend:
     container_name: health-service-backend
     depends_on:
       - mysql
+      - mq
     build:
       context: ./
     ports:
@@ -33,7 +50,7 @@ services:
       MYSQL_URL: mysql
     networks:
       health-net:
-        ipv4_address: 10.5.0.3
+        ipv4_address: 10.5.0.4
 
 networks:
   health-net:
