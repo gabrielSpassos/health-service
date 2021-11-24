@@ -31,7 +31,7 @@ public class RegistryConsumer {
             RegistryDTO event = objectMapper.readValue(message.getBody(), RegistryDTO.class);
             log.info("consumido evento {}", event);
         } catch (Exception e) {
-            log.error("Erro ao processar a mensagem de transacao de qrcode agendado {}", message, e);
+            log.error("Erro ao processar a mensagem registro {}", message, e);
             throw new AmqpRejectAndDontRequeueException(e);
         }
     }
