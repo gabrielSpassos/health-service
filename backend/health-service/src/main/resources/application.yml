@@ -37,6 +37,9 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+server:
+  port: ${PORT:8080}
+
 security:
   oauth2:
     resource:

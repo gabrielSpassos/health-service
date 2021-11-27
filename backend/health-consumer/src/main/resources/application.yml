@@ -11,9 +11,15 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+server:
+  port: ${PORT:9090}
+
 rabbitmq:
+  exchange:
+    name: 'health.registry.exchange'
+    type: 'topic'
+    routing-key: '#'
   registry:
     enabled: true
     queue:
       name: 'health.registry.queue'
-      routing-key: '#'
