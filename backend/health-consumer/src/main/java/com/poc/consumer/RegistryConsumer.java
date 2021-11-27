@@ -1,7 +1,7 @@
 package com.poc.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poc.dto.RegistryDTO;
+import com.poc.event.RegistryEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
@@ -28,7 +28,7 @@ public class RegistryConsumer {
     public void receive(Message message) {
         log.info("Registro consumido {}", message);
         try {
-            RegistryDTO event = objectMapper.readValue(message.getBody(), RegistryDTO.class);
+            RegistryEvent event = objectMapper.readValue(message.getBody(), RegistryEvent.class);
             log.info("consumido evento {}", event);
         } catch (Exception e) {
             log.error("Erro ao processar a mensagem registro {}", message, e);

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: health-consumer
+  rabbitmq:
+    host: 'localhost'
+    port: 5672
+    virtual-host: '/'
+    username: 'admin'
+    password: 'admin'
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+rabbitmq:
+  registry:
+    enabled: true
+    queue:
+      name: 'health.registry.queue'
+      routing-key: '#'

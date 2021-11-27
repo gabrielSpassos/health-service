@@ -1,0 +1,52 @@
+package com.poc.config;
+
+import lombok.Getter;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
+@Getter
+@Configuration
+public class RabbitConfig {
+
+    @Primary
+    @Bean(name = "connectionFactory")
+    public ConnectionFactory connectionFactory(
+            @Value("${spring.rabbitmq.host}") String host,
+            @Value("${spring.rabbitmq.port}") int port,
+            @Value("${spring.rabbitmq.username}") String username,
+            @Value("${spring.rabbitmq.password}") String password,
+            @Value("${spring.rabbitmq.virtual-host}") String virtualHost) {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        connectionFactory.setHost(host);
+        connectionFactory.setPort(port);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
+        connectionFactory.setVirtualHost(virtualHost);
+        return connectionFactory;
+    }
+
+    @Primary
+    @Bean(name = "containerFactory")
+    public SimpleRabbitListenerContainerFactory containerFactory(
+            @Qualifier("connectionFactory") ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        return factory;
+    }
+
+    @Primary
+    @Bean(name = "rabbitAdmin")
+    public RabbitAdmin rabbitAdmin(@Qualifier("connectionFactory") ConnectionFactory connectionFactory) {
+        RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+        rabbitAdmin.setAutoStartup(true);
+        return rabbitAdmin;
+    }
+
+}
