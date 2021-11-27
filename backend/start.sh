@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Build Backend Service Project"
+echo "Build Service Project"
 cd health-service/
 ./gradlew clean build
 cd ..

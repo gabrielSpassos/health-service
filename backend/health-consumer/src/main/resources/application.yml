@@ -2,7 +2,7 @@ spring:
   application:
     name: health-consumer
   rabbitmq:
-    host: 'localhost'
+    host: ${RABBIT_URL:localhost}
     port: 5672
     virtual-host: '/'
     username: 'admin'
