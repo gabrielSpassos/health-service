@@ -30,3 +30,10 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "admin"
+
+  redis:
+    container_name: health-redis
+    image: redis:latest
+    command: redis-server --requirepass Redis2021!
+    ports:
+      - "6379:6379"

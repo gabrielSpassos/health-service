@@ -7,6 +7,10 @@ spring:
     virtual-host: '/'
     username: 'admin'
     password: 'admin'
+  redis:
+    host: ${REDIS_URL:localhost}
+    post: 6379
+    password: Redis2021!
   jackson:
     serialization:
       fail-on-empty-beans: false

@@ -1,7 +1,9 @@
 package com.poc.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poc.entity.RegistryEntity;
 import com.poc.event.RegistryEvent;
+import com.poc.service.RegistryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(value="rabbitmq.registry.enabled", havingValue = "true")
 public class RegistryConsumer {
 
+    private final RegistryService registryService;
     private final ObjectMapper objectMapper;
 
     @RabbitListener(containerFactory = "containerFactory",
@@ -28,8 +31,10 @@ public class RegistryConsumer {
     public void receive(Message message) {
         log.info("Registro consumido {}", message);
         try {
-            RegistryEvent event = objectMapper.readValue(message.getBody(), RegistryEvent.class);
-            log.info("consumido evento {}", event);
+            RegistryEvent registryEvent = objectMapper.readValue(message.getBody(), RegistryEvent.class);
+            log.info("consumido evento {}", registryEvent);
+            RegistryEntity registryEntity = registryService.saveRegistryToCache(registryEvent);
+            log.info("gerado registro {}", registryEntity);
         } catch (Exception e) {
             log.error("Erro ao processar a mensagem registro {}", message, e);
             throw new AmqpRejectAndDontRequeueException(e);
