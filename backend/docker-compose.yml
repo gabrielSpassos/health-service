@@ -37,6 +37,16 @@ services:
       health-net:
         ipv4_address: 10.5.0.3
 
+  redis:
+    container_name: health-redis
+    image: redis:latest
+    command: redis-server --requirepass Redis2021!
+    ports:
+      - "6379:6379"
+    networks:
+      health-net:
+        ipv4_address: 10.5.0.4
+
   health-service-backend:
     container_name: health-service-backend
     depends_on:
@@ -52,22 +62,24 @@ services:
       PORT: 8080
     networks:
       health-net:
-        ipv4_address: 10.5.0.4
+        ipv4_address: 10.5.0.5
   
   health-consumer-backend:
     container_name: health-consumer-backend
     depends_on:
       - mq
+      - redis
     build:
       context: ./health-consumer/
     ports:
       - "9090:9090"
     environment:
       RABBIT_URL: mq
+      REDIS_URL: redis
       PORT: 9090
     networks:
       health-net:
-        ipv4_address: 10.5.0.5
+        ipv4_address: 10.5.0.6
 
 networks:
   health-net:
